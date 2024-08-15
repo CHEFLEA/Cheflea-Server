@@ -1,0 +1,13 @@
+package up.value.chefleaserver;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class ChefleaServerApplicationTests {
+
+    @Test
+    void contextLoads() {
+    }
+
+}
