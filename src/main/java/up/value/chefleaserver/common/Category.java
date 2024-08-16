@@ -17,5 +17,5 @@ public enum Category {
     HALAL("할랄"),
     FUSION("퓨전");
 
-    private final String value;
+    private final String koreanLabel;
 }
