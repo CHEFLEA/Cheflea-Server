@@ -6,10 +6,13 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import up.value.chefleaserver.common.Category;
 
+import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
@@ -23,4 +26,8 @@ public class PopupCategory {
 
     @Enumerated(EnumType.STRING)
     private Category category;
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "popup_id", nullable = false)
+    private Popup popup;
 }
