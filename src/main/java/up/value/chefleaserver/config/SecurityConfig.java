@@ -25,6 +25,7 @@ public class SecurityConfig {
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
 
     private final String[] permitAllPaths = {
+            "/users/login",
     };
 
     @Bean
