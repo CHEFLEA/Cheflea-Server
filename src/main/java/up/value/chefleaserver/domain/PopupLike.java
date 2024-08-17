@@ -27,6 +27,6 @@ public class PopupLike {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "popup_id",nullable = false)
+    @JoinColumn(name = "popup_id", nullable = false)
     private Popup popup;
 }
