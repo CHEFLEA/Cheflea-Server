@@ -40,7 +40,7 @@ public class UserPopup {
     @JoinColumn(name = "popup_id", nullable = false)
     private Popup popup;
 
-    @OneToOne(fetch = LAZY)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "time_table_id", nullable = false)
     private TimeTable timeTable;
 
