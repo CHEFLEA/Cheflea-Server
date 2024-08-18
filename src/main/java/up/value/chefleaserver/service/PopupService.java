@@ -35,6 +35,7 @@ public class PopupService {
         return PopupsGetResponse.of(popupGetResponses);
     }
 
+    @Transactional(readOnly = true)
     public PopupDetailGetResponse getPopup(User loginUser, Long popupId) {
         Popup popup = popupRepository.findById(popupId).orElseThrow(RuntimeException::new);
         return PopupDetailGetResponse.of(popup,HeadChefInfoResponse.of(popup),userService.isLikedByUser(loginUser, popup));
