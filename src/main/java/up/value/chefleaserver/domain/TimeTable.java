@@ -28,6 +28,6 @@ public class TimeTable {
     private LocalDateTime endTime;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "user_popup_id",nullable = false)
+    @JoinColumn(name = "user_popup_id", nullable = false)
     private UserPopup userPopup;
 }
