@@ -39,4 +39,13 @@ public class PopupController {
                 .status(OK)
                 .body(popupService.getPopup(loginUser, popupId));
     }
+
+    @GetMapping("/{popupId}/reservations")
+    public ResponseEntity<PopupInfoForReservationResponse> getPopupInfoForReservation(Principal principal,
+                                                                                      @PathVariable("popupId") Long popupId) {
+        User loginUser = userService.getUserOrException(Long.valueOf(principal.getName()));
+        return ResponseEntity
+                .status(OK)
+                .body(popupService.getPopupInfoForReservation(loginUser, popupId));
+    }
 }
