@@ -1,10 +1,9 @@
 package up.value.chefleaserver.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import up.value.chefleaserver.domain.Popup;
-
 import java.time.LocalDate;
 import java.util.List;
+import up.value.chefleaserver.domain.Popup;
 
 public record PopupDetailGetResponse(
         String popupImage,
