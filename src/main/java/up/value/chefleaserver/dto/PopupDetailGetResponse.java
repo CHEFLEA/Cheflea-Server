@@ -31,7 +31,8 @@ public record PopupDetailGetResponse(
                         .getAddress(),
                 popup.getPeriod(),
                 headChefInfo,
-                popup.getPopupmenus().stream()
+                popup.getPopupmenus()
+                        .stream()
                         .map(MenuResponse::of).toList(),
                 isLiked
         );
