@@ -30,6 +30,6 @@ public class UserRestaurant {
     private User user;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "restaurant_id",nullable = false)
+    @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant;
 }
