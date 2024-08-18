@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import up.value.chefleaserver.domain.User;
 import up.value.chefleaserver.dto.PopupDetailGetResponse;
+import up.value.chefleaserver.dto.PopupInfoForReservationResponse;
 import up.value.chefleaserver.dto.PopupsGetResponse;
 import up.value.chefleaserver.service.PopupService;
 import up.value.chefleaserver.service.UserService;
