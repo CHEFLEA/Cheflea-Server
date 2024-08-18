@@ -16,14 +16,18 @@ public record PopupDetailGetResponse(
         List<MenuResponse> menus,
         Boolean isLiked
 ) {
-    public static PopupDetailGetResponse of(Popup popup, HeadChefInfoResponse headChefInfo, Boolean isLiked){
+    public static PopupDetailGetResponse of(Popup popup, HeadChefInfoResponse headChefInfo, Boolean isLiked) {
         return new PopupDetailGetResponse(
                 popup.getImage(),
                 popup.getName(),
                 popup.getPopupCategories().stream()
-                        .map(popupCategory -> popupCategory.getCategory().getKoreanLabel())
+                        .map(popupCategory -> popupCategory
+                                .getCategory()
+                                .getKoreanLabel())
                         .toList(),
-                popup.getUserRestaurant().getRestaurant().getAddress(),
+                popup.getUserRestaurant()
+                        .getRestaurant()
+                        .getAddress(),
                 popup.getPeriod(),
                 headChefInfo,
                 popup.getPopupmenus().stream()
