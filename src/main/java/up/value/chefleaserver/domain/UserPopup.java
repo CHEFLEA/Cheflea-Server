@@ -11,6 +11,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 @Entity
@@ -42,4 +43,14 @@ public class UserPopup {
     @OneToOne(fetch = LAZY)
     @JoinColumn(name = "time_table_id", nullable = false)
     private TimeTable timeTable;
+
+    @Builder
+    public UserPopup(String name, String phoneNumber, Integer party, User user, Popup popup, TimeTable timeTable) {
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.party = party;
+        this.user = user;
+        this.popup = popup;
+        this.timeTable = timeTable;
+    }
 }
