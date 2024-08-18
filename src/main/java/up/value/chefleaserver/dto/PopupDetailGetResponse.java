@@ -1,5 +1,6 @@
 package up.value.chefleaserver.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import up.value.chefleaserver.domain.Popup;
 
 import java.time.LocalDate;
@@ -10,6 +11,7 @@ public record PopupDetailGetResponse(
         String popupName,
         List<String> popupCategories,
         String popupAddress,
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "YY.MM.dd")
         LocalDate popupPeriod,
         HeadChefInfoResponse headChefInfo,
         List<MenuResponse> menus,
