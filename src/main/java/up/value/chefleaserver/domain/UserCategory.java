@@ -28,6 +28,6 @@ public class UserCategory {
     private Category cateory;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "user_id",nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 }
