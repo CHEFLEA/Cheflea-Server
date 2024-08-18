@@ -1,16 +1,15 @@
 package up.value.chefleaserver.service;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import up.value.chefleaserver.domain.Popup;
-import up.value.chefleaserver.domain.PopupLike;
 import up.value.chefleaserver.domain.User;
+import up.value.chefleaserver.dto.PopupDetailGetResponse;
 import up.value.chefleaserver.dto.PopupGetResponse;
 import up.value.chefleaserver.dto.PopupsGetResponse;
 import up.value.chefleaserver.repository.PopupRepository;
-
-import java.util.List;
 
 @Service
 @Transactional
@@ -18,6 +17,7 @@ import java.util.List;
 public class PopupService {
 
     private final PopupRepository popupRepository;
+    private final UserService userService;
 
     @Transactional(readOnly = true)
     public PopupsGetResponse getAllPopups(User loginUser) {
@@ -25,13 +25,18 @@ public class PopupService {
 
         List<PopupGetResponse> popupGetResponses = popups.stream()
                 .map(popup -> {
-                    boolean isLiked = popup.getPopupLikes().stream().map(PopupLike::getUser)
-                            .toList()
-                            .contains(loginUser);
+                    boolean isLiked = userService.isLikedByUser(loginUser, popup);
                     return PopupGetResponse.of(popup, isLiked);
                 })
                 .toList();
 
         return PopupsGetResponse.of(popupGetResponses);
+    }
+
+    @Transactional(readOnly = true)
+    public PopupDetailGetResponse getPopup(User loginUser, Long popupId) {
+        Popup popup = popupRepository.findById(popupId).orElseThrow(RuntimeException::new);
+        boolean isLiked = userService.isLikedByUser(loginUser, popup);
+        return PopupDetailGetResponse.of(popup, isLiked);
     }
 }
