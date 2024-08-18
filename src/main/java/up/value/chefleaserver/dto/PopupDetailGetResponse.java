@@ -18,7 +18,7 @@ public record PopupDetailGetResponse(
         List<MenuResponse> menus,
         Boolean isLiked
 ) {
-    public static PopupDetailGetResponse of(Popup popup, HeadChefInfoResponse headChefInfo, Boolean isLiked) {
+    public static PopupDetailGetResponse of(Popup popup, Boolean isLiked) {
         return new PopupDetailGetResponse(
                 popup.getImage(),
                 popup.getName(),
@@ -30,7 +30,8 @@ public record PopupDetailGetResponse(
                         .getRestaurant()
                         .getAddress(),
                 popup.getPeriod(),
-                headChefInfo,
+                HeadChefInfoResponse
+                        .of(popup),
                 popup.getPopupmenus()
                         .stream()
                         .map(MenuResponse::of)

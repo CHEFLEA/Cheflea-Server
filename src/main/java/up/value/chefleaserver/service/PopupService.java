@@ -1,17 +1,15 @@
 package up.value.chefleaserver.service;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import up.value.chefleaserver.domain.Popup;
 import up.value.chefleaserver.domain.User;
-import up.value.chefleaserver.dto.HeadChefInfoResponse;
 import up.value.chefleaserver.dto.PopupDetailGetResponse;
 import up.value.chefleaserver.dto.PopupGetResponse;
 import up.value.chefleaserver.dto.PopupsGetResponse;
 import up.value.chefleaserver.repository.PopupRepository;
-
-import java.util.List;
 
 @Service
 @Transactional
@@ -38,7 +36,7 @@ public class PopupService {
     @Transactional(readOnly = true)
     public PopupDetailGetResponse getPopup(User loginUser, Long popupId) {
         Popup popup = popupRepository.findById(popupId).orElseThrow(RuntimeException::new);
-        return PopupDetailGetResponse.of(popup, HeadChefInfoResponse.of(popup),
-                userService.isLikedByUser(loginUser, popup));
+        boolean isLiked = userService.isLikedByUser(loginUser, popup);
+        return PopupDetailGetResponse.of(popup, isLiked);
     }
 }
