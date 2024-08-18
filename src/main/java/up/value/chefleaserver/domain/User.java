@@ -1,5 +1,7 @@
 package up.value.chefleaserver.domain;
 
+import static jakarta.persistence.GenerationType.IDENTITY;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -7,14 +9,11 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import up.value.chefleaserver.common.Role;
-
-import java.util.List;
-
-import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Getter
