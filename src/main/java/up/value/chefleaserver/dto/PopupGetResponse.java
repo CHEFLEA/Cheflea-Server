@@ -1,13 +1,12 @@
 package up.value.chefleaserver.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import up.value.chefleaserver.common.Category;
-import up.value.chefleaserver.domain.Popup;
-import up.value.chefleaserver.domain.PopupCategory;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import up.value.chefleaserver.common.Category;
+import up.value.chefleaserver.domain.Popup;
+import up.value.chefleaserver.domain.PopupCategory;
 
 public record PopupGetResponse(
         Long popupId,
@@ -23,7 +22,6 @@ public record PopupGetResponse(
         LocalDateTime popupEndTime,
         String popupHeadChef,
         Boolean isLiked
-
 ) {
     public static PopupGetResponse of(Popup popup, Boolean isLiked) {
         return new PopupGetResponse(
