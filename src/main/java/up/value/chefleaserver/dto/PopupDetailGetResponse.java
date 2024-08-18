@@ -33,7 +33,8 @@ public record PopupDetailGetResponse(
                 headChefInfo,
                 popup.getPopupmenus()
                         .stream()
-                        .map(MenuResponse::of).toList(),
+                        .map(MenuResponse::of)
+                        .toList(),
                 isLiked
         );
     }
