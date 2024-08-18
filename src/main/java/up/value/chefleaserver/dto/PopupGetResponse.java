@@ -35,11 +35,15 @@ public record PopupGetResponse(
                         .map(Category::getKoreanLabel)
                         .toList(),
                 popup.getName(),
-                popup.getUserRestaurant().getRestaurant().getAddress(),
+                popup.getUserRestaurant()
+                        .getRestaurant()
+                        .getAddress(),
                 popup.getPeriod(),
                 popup.getStartTime(),
                 popup.getEndTime(),
-                popup.getUserRestaurant().getUser().getName(),
+                popup.getUserRestaurant()
+                        .getUser()
+                        .getName(),
                 isLiked
         );
     }
