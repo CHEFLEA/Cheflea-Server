@@ -30,6 +30,7 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("no user"));
     }
 
+    @Transactional(readOnly = true)
     public Boolean isLikedByUser(User loginUser, Popup popup) {
         return popup.getPopupLikes()
                 .stream()
