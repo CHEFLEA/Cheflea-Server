@@ -30,8 +30,10 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("no user"));
     }
 
-    public Boolean isLikedByUser(User loginUser, Popup popup){
-        return popup.getPopupLikes().stream().map(PopupLike::getUser)
+    public Boolean isLikedByUser(User loginUser, Popup popup) {
+        return popup.getPopupLikes()
+                .stream()
+                .map(PopupLike::getUser)
                 .toList()
                 .contains(loginUser);
     }
