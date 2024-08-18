@@ -1,6 +1,9 @@
 package up.value.chefleaserver.controller;
 
 
+import static org.springframework.http.HttpStatus.OK;
+
+import java.security.Principal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,10 +15,6 @@ import up.value.chefleaserver.dto.PopupDetailGetResponse;
 import up.value.chefleaserver.dto.PopupsGetResponse;
 import up.value.chefleaserver.service.PopupService;
 import up.value.chefleaserver.service.UserService;
-
-import java.security.Principal;
-
-import static org.springframework.http.HttpStatus.OK;
 
 @RestController
 @RequiredArgsConstructor
