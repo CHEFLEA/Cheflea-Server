@@ -8,6 +8,7 @@ import up.value.chefleaserver.domain.Popup;
 import up.value.chefleaserver.domain.User;
 import up.value.chefleaserver.dto.PopupDetailGetResponse;
 import up.value.chefleaserver.dto.PopupGetResponse;
+import up.value.chefleaserver.dto.PopupInfoForReservationResponse;
 import up.value.chefleaserver.dto.PopupsGetResponse;
 import up.value.chefleaserver.repository.PopupRepository;
 
@@ -38,5 +39,11 @@ public class PopupService {
         Popup popup = popupRepository.findById(popupId).orElseThrow(RuntimeException::new);
         boolean isLiked = userService.isLikedByUser(loginUser, popup);
         return PopupDetailGetResponse.of(popup, isLiked);
+    }
+
+    @Transactional(readOnly = true)
+    public PopupInfoForReservationResponse getPopupInfoForReservation(User loginUser, Long popupId) {
+        Popup popup = popupRepository.findById(popupId).orElseThrow(RuntimeException::new);
+        return PopupInfoForReservationResponse.of(popup);
     }
 }
