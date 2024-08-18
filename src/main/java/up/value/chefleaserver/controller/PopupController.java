@@ -37,6 +37,6 @@ public class PopupController {
         User loginUser = userService.getUserOrException(Long.valueOf(principal.getName()));
         return ResponseEntity
                 .status(OK)
-                .body(popupService.getPopup(loginUser,popupId));
+                .body(popupService.getPopup(loginUser, popupId));
     }
 }
