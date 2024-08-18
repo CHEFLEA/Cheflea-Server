@@ -3,7 +3,9 @@ package up.value.chefleaserver.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDate;
 import java.util.List;
+import up.value.chefleaserver.common.Category;
 import up.value.chefleaserver.domain.Popup;
+import up.value.chefleaserver.domain.PopupCategory;
 
 public record PopupDetailGetResponse(
         String popupImage,
@@ -21,9 +23,8 @@ public record PopupDetailGetResponse(
                 popup.getImage(),
                 popup.getName(),
                 popup.getPopupCategories().stream()
-                        .map(popupCategory -> popupCategory
-                                .getCategory()
-                                .getKoreanLabel())
+                        .map(PopupCategory::getCategory)
+                        .map(Category::getKoreanLabel)
                         .toList(),
                 popup.getUserRestaurant()
                         .getRestaurant()
