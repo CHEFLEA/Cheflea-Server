@@ -12,9 +12,6 @@ import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
-import static jakarta.persistence.FetchType.LAZY;
-import static jakarta.persistence.GenerationType.IDENTITY;
-
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Description {
@@ -27,6 +24,6 @@ public class Description {
     private String description;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "restaurant_id",nullable = false)
+    @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant;
 }
