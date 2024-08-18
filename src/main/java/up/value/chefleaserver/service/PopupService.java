@@ -25,9 +25,7 @@ public class PopupService {
 
         List<PopupGetResponse> popupGetResponses = popups.stream()
                 .map(popup -> {
-                    boolean isLiked = popup.getPopupLikes().stream().map(PopupLike::getUser)
-                            .toList()
-                            .contains(loginUser);
+                    boolean isLiked = userService.isLikedByUser(loginUser, popup);
                     return PopupGetResponse.of(popup, isLiked);
                 })
                 .toList();
