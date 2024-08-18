@@ -7,11 +7,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PopupLike {
 
@@ -25,6 +27,6 @@ public class PopupLike {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "popup_id",nullable = false)
+    @JoinColumn(name = "popup_id", nullable = false)
     private Popup popup;
 }
