@@ -19,7 +19,6 @@ import java.util.List;
 public class PopupService {
 
     private final PopupRepository popupRepository;
-
     private final UserService userService;
 
     @Transactional(readOnly = true)
