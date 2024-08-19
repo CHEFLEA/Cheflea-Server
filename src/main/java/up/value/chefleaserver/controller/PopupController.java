@@ -1,6 +1,7 @@
 package up.value.chefleaserver.controller;
 
 
+import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
 import java.security.Principal;
@@ -50,5 +51,6 @@ public class PopupController {
         return ResponseEntity
                 .status(OK)
                 .body(popupService.reservePopup(loginUser, popupId, request));
+                .status(CREATED)
     }
 }
