@@ -50,8 +50,7 @@ public class PopupController {
         User loginUser = userService.getUserOrException(Long.valueOf(principal.getName()));
         popupService.reservePopup(loginUser, popupId, request);
         return ResponseEntity
-                .status(OK)
-                .body(popupService.reservePopup(loginUser, popupId, request));
                 .status(CREATED)
+                .build();
     }
 }
