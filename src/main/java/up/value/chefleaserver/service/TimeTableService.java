@@ -13,6 +13,7 @@ public class TimeTableService {
 
     private final TimeTableRepository timeTableRepository;
 
+    @Transactional(readOnly = true)
     public TimeTable findById(Long timeTableId) {
         return timeTableRepository.findById(timeTableId).orElseThrow(RuntimeException::new);
     }
