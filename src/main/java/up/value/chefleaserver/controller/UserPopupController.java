@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import up.value.chefleaserver.domain.User;
+import up.value.chefleaserver.dto.ReservationGetResponse;
 import up.value.chefleaserver.service.UserPopupService;
 import up.value.chefleaserver.service.UserService;
 
@@ -27,6 +28,6 @@ public class UserPopupController {
         User loginUser = userService.getUserOrException(Long.valueOf(principal.getName()));
         return ResponseEntity
                 .status(OK)
-                .body(userPopupService.getReservationInfo(loginUser, reservation_id));
+                .body(userPopupService.getReservationInfo(reservation_id));
     }
 }
