@@ -24,7 +24,7 @@ public class UserPopupService {
                 .party(request.reservationParty())
                 .popup(popup)
                 .user(user)
-                .timeTable(timeTableService.findById(request.reservationTimeId()))
+                .timeTable(timeTableService.findByIdOrThrow(request.reservationTimeId()))
                 .build();
 
         UserPopup savedUserPopup = userPopupRepository.save(userPopup);
