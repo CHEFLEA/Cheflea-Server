@@ -43,9 +43,8 @@ public class PopupService {
         return PopupDetailGetResponse.of(popup, isLiked);
     }
 
-    public Void reservePopup(User loginUser, Long popupId, ReservationRequest request) {
+    public void reservePopup(User loginUser, Long popupId, ReservationRequest request) {
         Popup popup = popupRepository.findById(popupId).orElseThrow(RuntimeException::new);
         userPopupService.saveReservationInfo(loginUser, popup, request);
-        return null;
     }
 }

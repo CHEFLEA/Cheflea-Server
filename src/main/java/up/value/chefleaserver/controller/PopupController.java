@@ -48,6 +48,7 @@ public class PopupController {
     public ResponseEntity<Void> reservePopup(Principal principal, @PathVariable("popupId") Long popupId, @RequestBody
     ReservationRequest request) {
         User loginUser = userService.getUserOrException(Long.valueOf(principal.getName()));
+        popupService.reservePopup(loginUser, popupId, request);
         return ResponseEntity
                 .status(OK)
                 .body(popupService.reservePopup(loginUser, popupId, request));
