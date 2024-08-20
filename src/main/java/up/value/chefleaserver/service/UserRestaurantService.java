@@ -1,11 +1,14 @@
 package up.value.chefleaserver.service;
 
+import java.util.Arrays;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import up.value.chefleaserver.common.Category;
 import up.value.chefleaserver.domain.Menu;
 import up.value.chefleaserver.domain.Popup;
+import up.value.chefleaserver.domain.PopupCategory;
 import up.value.chefleaserver.domain.Restaurant;
 import up.value.chefleaserver.domain.User;
 import up.value.chefleaserver.domain.UserRestaurant;
@@ -14,6 +17,7 @@ import up.value.chefleaserver.dto.UserRestaurantsGetResponse;
 import up.value.chefleaserver.dto.popup.PopupRegisterPostRequest;
 import up.value.chefleaserver.dto.userRestaurant.UserRestaurantReservationRequest;
 import up.value.chefleaserver.repository.MenuRepository;
+import up.value.chefleaserver.repository.PopupCategoryRepository;
 import up.value.chefleaserver.repository.PopupRepository;
 import up.value.chefleaserver.repository.RestaurantRepository;
 import up.value.chefleaserver.repository.UserRestaurantRepository;
@@ -28,6 +32,7 @@ public class UserRestaurantService {
     private final RestaurantRepository restaurantRepository;
     private final PopupRepository popupRepository;
     private final MenuRepository menuRepository;
+    private final PopupCategoryRepository popupCategoryRepository;
 
     @Transactional(readOnly = true)
     public UserRestaurantsGetResponse getAllRegisteredRestaurant(User user) {
@@ -74,5 +79,18 @@ public class UserRestaurantService {
                 .map(menuRegisterPostRequest -> Menu.create(menuRegisterPostRequest, popup))
                 .toList();
         menuRepository.saveAll(menus);
+
+        List<PopupCategory> popupCategories = userRestaurantReservationRequest.foodCategories()
+                .stream()
+                .map(koreanLabel -> PopupCategory.create(getCategoryByKoreanLabel(koreanLabel), popup))
+                .toList();
+        popupCategoryRepository.saveAll(popupCategories);
+    }
+
+    private Category getCategoryByKoreanLabel(String koreanLabel) {
+        return Arrays.stream(Category.values())
+                .filter(category -> category.getKoreanLabel().equals(koreanLabel))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Invalid category: " + koreanLabel));
     }
 }
