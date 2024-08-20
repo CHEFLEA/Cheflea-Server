@@ -11,11 +11,13 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import up.value.chefleaserver.dto.popup.PopupRegisterPostRequest;
 
 @Entity
 @Getter
@@ -33,9 +35,9 @@ public class Popup {
 
     private LocalDate period;
 
-    private LocalDateTime startTime;
+    private LocalTime startTime;
 
-    private LocalDateTime endTime;
+    private LocalTime endTime;
 
     @OneToMany(mappedBy = "popup")
     private List<PopupCategory> popupCategories = new ArrayList<>();
