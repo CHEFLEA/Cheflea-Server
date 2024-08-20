@@ -93,11 +93,16 @@ public class UserRestaurantService {
         List<UserRestaurantReservationMenuGetResponse> userRestaurantReservationMenuGetResponses = menus.stream()
                 .map(UserRestaurantReservationMenuGetResponse::of)
                 .toList();
+        List<String> categoriesByKoreanLabel = popupCategories.stream()
+                .map(PopupCategory::getCategory)
+                .map(Category::getKoreanLabel)
+                .toList();
 
         return UserRestaurantReservationResponse.of(
                 UserRestaurantReservationRestaurantGetResponse.of(restaurant),
                 UserRestaurantReservationPopupGetResponse.of(popup),
-                userRestaurantReservationMenuGetResponses);
+                userRestaurantReservationMenuGetResponses,
+                categoriesByKoreanLabel);
     }
 
     private Category getCategoryByKoreanLabel(String koreanLabel) {

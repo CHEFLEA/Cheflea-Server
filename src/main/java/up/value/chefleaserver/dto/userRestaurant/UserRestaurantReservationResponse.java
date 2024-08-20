@@ -8,17 +8,20 @@ import up.value.chefleaserver.dto.restaurant.UserRestaurantReservationRestaurant
 public record UserRestaurantReservationResponse(
         UserRestaurantReservationRestaurantGetResponse restaurant,
         UserRestaurantReservationPopupGetResponse popupInfo,
-        List<UserRestaurantReservationMenuGetResponse> menus
+        List<UserRestaurantReservationMenuGetResponse> menus,
+        List<String> foodCategories
 ) {
 
     public static UserRestaurantReservationResponse of(
             UserRestaurantReservationRestaurantGetResponse userRestaurantReservationRestaurantGetResponse,
             UserRestaurantReservationPopupGetResponse userRestaurantReservationPopupGetResponse,
-            List<UserRestaurantReservationMenuGetResponse> userRestaurantReservationMenusGetResponses) {
+            List<UserRestaurantReservationMenuGetResponse> userRestaurantReservationMenusGetResponses,
+            List<String> categories) {
         return new UserRestaurantReservationResponse(
                 userRestaurantReservationRestaurantGetResponse,
                 userRestaurantReservationPopupGetResponse,
-                userRestaurantReservationMenusGetResponses
+                userRestaurantReservationMenusGetResponses,
+                categories
         );
     }
 }
