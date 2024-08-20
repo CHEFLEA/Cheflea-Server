@@ -46,6 +46,9 @@ public class Popup {
     @OneToMany(mappedBy = "popup")
     private List<Menu> popupmenus = new ArrayList<>();
 
+    @OneToMany(mappedBy = "popup")
+    private List<TimeTable> popupTimeTables = new ArrayList<>();
+
     @ManyToOne
     @JoinColumn(name = "user_restaurant_id", nullable = false)
     private UserRestaurant userRestaurant;

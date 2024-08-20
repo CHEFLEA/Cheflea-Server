@@ -7,8 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 import up.value.chefleaserver.domain.Popup;
 import up.value.chefleaserver.domain.User;
 import up.value.chefleaserver.domain.UserPopup;
-import up.value.chefleaserver.dto.ReservationsGetResponse;
+import up.value.chefleaserver.dto.ReservationGetResponse;
 import up.value.chefleaserver.dto.ReservationRequest;
+import up.value.chefleaserver.dto.ReservationsGetResponse;
 import up.value.chefleaserver.repository.UserPopupRepository;
 
 @Service
@@ -41,4 +42,10 @@ public class UserPopupService {
         List<UserPopup> userPopups = userPopupRepository.findAllByUser(user);
         return ReservationsGetResponse.of(userPopups);
     }
+
+    public ReservationGetResponse getReservationInfo(Long reservationId) {
+        UserPopup userPopup = userPopupRepository.findById(reservationId).orElseThrow(RuntimeException::new);
+        return ReservationGetResponse.of(userPopup);
+    }
+
 }
