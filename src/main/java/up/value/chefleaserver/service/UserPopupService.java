@@ -1,5 +1,6 @@
 package up.value.chefleaserver.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -7,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import up.value.chefleaserver.domain.Popup;
 import up.value.chefleaserver.domain.User;
 import up.value.chefleaserver.domain.UserPopup;
+import up.value.chefleaserver.dto.ReservationInfoResponse;
 import up.value.chefleaserver.dto.ReservationInfosResponse;
 import up.value.chefleaserver.dto.ReservationRequest;
 import up.value.chefleaserver.repository.UserPopupRepository;
@@ -39,6 +41,10 @@ public class UserPopupService {
     @Transactional(readOnly = true)
     public ReservationInfosResponse getAllReservation(User user) {
         List<UserPopup> userPopups = userPopupRepository.findAllByUser(user);
-        return ReservationInfosResponse.of(userPopups);
+        List<ReservationInfoResponse> reservationInfoResponses = new ArrayList<>();
+        for (UserPopup userPopup : userPopups) {
+            reservationInfoResponses.add(ReservationInfoResponse.of(userPopup));
+        }
+        return ReservationInfosResponse.of(reservationInfoResponses);
     }
 }
