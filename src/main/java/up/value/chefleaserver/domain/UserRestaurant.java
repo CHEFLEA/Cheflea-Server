@@ -39,4 +39,11 @@ public class UserRestaurant {
         this.user = user;
         this.restaurant = restaurant;
     }
+
+    public static UserRestaurant create(User user, Restaurant restaurant) {
+        return UserRestaurant.builder()
+                .user(user)
+                .restaurant(restaurant)
+                .build();
+    }
 }

@@ -12,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import up.value.chefleaserver.common.Category;
@@ -32,4 +33,17 @@ public class PopupCategory {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "popup_id", nullable = false)
     private Popup popup;
+
+    @Builder
+    private PopupCategory(Category category, Popup popup) {
+        this.category = category;
+        this.popup = popup;
+    }
+
+    public static PopupCategory create(Category category, Popup popup) {
+        return PopupCategory.builder()
+                .category(category)
+                .popup(popup)
+                .build();
+    }
 }

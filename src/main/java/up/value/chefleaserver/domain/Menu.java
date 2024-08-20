@@ -12,6 +12,7 @@ import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import up.value.chefleaserver.dto.menu.MenuRegisterPostRequest;
 
 @Entity
 @Getter
@@ -34,4 +35,16 @@ public class Menu {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "popup_id", nullable = false)
     private Popup popup;
+
+    private Menu(MenuRegisterPostRequest menuRegisterPostRequest, Popup popup) {
+        this.name = menuRegisterPostRequest.menuName();
+        this.description = menuRegisterPostRequest.menuDescription();
+        this.image = menuRegisterPostRequest.menuImage();
+        this.price = menuRegisterPostRequest.menuPrice();
+        this.popup = popup;
+    }
+
+    public static Menu create(MenuRegisterPostRequest menuRegisterPostRequest, Popup popup) {
+        return new Menu(menuRegisterPostRequest, popup);
+    }
 }
