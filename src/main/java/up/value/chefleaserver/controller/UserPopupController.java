@@ -22,12 +22,12 @@ public class UserPopupController {
     private final UserPopupService userPopupService;
     private final UserService userService;
 
-    @GetMapping("/client/{reservation_id}")
+    @GetMapping("/client/{reservationId}")
     public ResponseEntity<ReservationGetResponse> getReservationInfo(Principal principal,
-                                                                     @PathVariable Long reservation_id) {
+                                                                     @PathVariable Long reservationId) {
         User loginUser = userService.getUserOrException(Long.valueOf(principal.getName()));
         return ResponseEntity
                 .status(OK)
-                .body(userPopupService.getReservationInfo(reservation_id));
+                .body(userPopupService.getReservationInfo(reservationId));
     }
 }
