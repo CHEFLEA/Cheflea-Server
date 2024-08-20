@@ -41,9 +41,6 @@ public class UserPopupService {
     @Transactional(readOnly = true)
     public ReservationInfosResponse getAllReservation(User user) {
         List<UserPopup> userPopups = userPopupRepository.findAllByUser(user);
-        List<ReservationInfoResponse> reservationInfoResponses = userPopups.stream()
-                .map(ReservationInfoResponse::of)
-                .toList();
-        return ReservationInfosResponse.of(reservationInfoResponses);
+        return ReservationInfosResponse.of(userPopups);
     }
 }
