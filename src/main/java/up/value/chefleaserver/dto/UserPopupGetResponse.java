@@ -2,13 +2,13 @@ package up.value.chefleaserver.dto;
 
 import up.value.chefleaserver.domain.UserPopup;
 
-public record ReservationGetResponse(
+public record UserPopupGetResponse(
         Long reservationId,
         PopupInfosResponse popupInfos,
         String reservationStatus
 ) {
-    public static ReservationGetResponse of(UserPopup userPopup) {
-        return new ReservationGetResponse(
+    public static UserPopupGetResponse of(UserPopup userPopup) {
+        return new UserPopupGetResponse(
                 userPopup.getId(),
                 PopupInfosResponse.of(userPopup),
                 userPopup.getStatus()

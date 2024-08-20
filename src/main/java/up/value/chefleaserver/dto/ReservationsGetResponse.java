@@ -4,13 +4,13 @@ import java.util.List;
 import up.value.chefleaserver.domain.UserPopup;
 
 public record ReservationsGetResponse(
-        List<ReservationGetResponse> reservationInfos
+        List<UserPopupGetResponse> reservationInfos
 ) {
     public static ReservationsGetResponse of(List<UserPopup> reservationInfos) {
         return new ReservationsGetResponse(
                 reservationInfos
                         .stream()
-                        .map(ReservationGetResponse::of)
+                        .map(UserPopupGetResponse::of)
                         .toList()
         );
     }
