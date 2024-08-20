@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import up.value.chefleaserver.domain.User;
-import up.value.chefleaserver.dto.ReservationInfosResponse;
+import up.value.chefleaserver.dto.ReservationsGetResponse;
 import up.value.chefleaserver.service.UserPopupService;
 import up.value.chefleaserver.service.UserService;
 
@@ -22,7 +22,7 @@ public class UserPopupController {
     private final UserPopupService userPopupService;
 
     @GetMapping("/customer")
-    public ResponseEntity<ReservationInfosResponse> getAllReservation(Principal principal) {
+    public ResponseEntity<ReservationsGetResponse> getAllReservation(Principal principal) {
         User loginUser = userService.getUserOrException(Long.valueOf(principal.getName()));
         return ResponseEntity
                 .status(OK)

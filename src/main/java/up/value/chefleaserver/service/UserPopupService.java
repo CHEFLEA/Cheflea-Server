@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import up.value.chefleaserver.domain.Popup;
 import up.value.chefleaserver.domain.User;
 import up.value.chefleaserver.domain.UserPopup;
-import up.value.chefleaserver.dto.ReservationInfosResponse;
+import up.value.chefleaserver.dto.ReservationsGetResponse;
 import up.value.chefleaserver.dto.ReservationRequest;
 import up.value.chefleaserver.repository.UserPopupRepository;
 
@@ -37,8 +37,8 @@ public class UserPopupService {
     }
 
     @Transactional(readOnly = true)
-    public ReservationInfosResponse getAllReservation(User user) {
+    public ReservationsGetResponse getAllReservation(User user) {
         List<UserPopup> userPopups = userPopupRepository.findAllByUser(user);
-        return ReservationInfosResponse.of(userPopups);
+        return ReservationsGetResponse.of(userPopups);
     }
 }
