@@ -10,7 +10,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,4 +53,20 @@ public class Popup {
     @ManyToOne
     @JoinColumn(name = "user_restaurant_id", nullable = false)
     private UserRestaurant userRestaurant;
+
+    private Popup(PopupRegisterPostRequest popupRegisterPostRequest, LocalDate restaurantPeriod,
+                  UserRestaurant userRestaurant) {
+        this.name = popupRegisterPostRequest.popupName();
+        this.image = popupRegisterPostRequest.popupImage();
+        this.period = restaurantPeriod;
+        this.startTime = popupRegisterPostRequest.popupStartTime();
+        this.endTime = popupRegisterPostRequest.popupEndTime();
+        this.userRestaurant = userRestaurant;
+    }
+
+    public static Popup create(PopupRegisterPostRequest popupRegisterPostRequest,
+                               LocalDate restaurantPeriod,
+                               UserRestaurant userRestaurant) {
+        return new Popup(popupRegisterPostRequest, restaurantPeriod, userRestaurant);
+    }
 }
