@@ -14,6 +14,7 @@ import up.value.chefleaserver.domain.User;
 import up.value.chefleaserver.domain.UserRestaurant;
 import up.value.chefleaserver.dto.RestaurantReservationRequest;
 import up.value.chefleaserver.dto.UserRestaurantsGetResponse;
+import up.value.chefleaserver.dto.menu.UserRestaurantReservationMenuGetResponse;
 import up.value.chefleaserver.dto.popup.PopupRegisterPostRequest;
 import up.value.chefleaserver.dto.popup.UserRestaurantReservationPopupGetResponse;
 import up.value.chefleaserver.dto.restaurant.UserRestaurantReservationRestaurantGetResponse;
@@ -89,9 +90,14 @@ public class UserRestaurantService {
                 .toList();
         popupCategoryRepository.saveAll(popupCategories);
 
+        List<UserRestaurantReservationMenuGetResponse> userRestaurantReservationMenuGetResponses = menus.stream()
+                .map(UserRestaurantReservationMenuGetResponse::of)
+                .toList();
+
         return UserRestaurantReservationResponse.of(
                 UserRestaurantReservationRestaurantGetResponse.of(restaurant),
-                UserRestaurantReservationPopupGetResponse.of(popup));
+                UserRestaurantReservationPopupGetResponse.of(popup),
+                userRestaurantReservationMenuGetResponses);
     }
 
     private Category getCategoryByKoreanLabel(String koreanLabel) {
