@@ -1,7 +1,7 @@
 package up.value.chefleaserver.dto;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import up.value.chefleaserver.common.Category;
 import up.value.chefleaserver.domain.PopupCategory;
@@ -13,8 +13,8 @@ public record PopupInfosResponse(
         String popupName,
         String popupAddress,
         LocalDate popupPeriod,
-        LocalDateTime popupStartTime,
-        LocalDateTime popupEndTime,
+        LocalTime popupStartTime,
+        LocalTime popupEndTime,
         String popupHeadChef
 ) {
     public static PopupInfosResponse of(UserPopup userPopup) {

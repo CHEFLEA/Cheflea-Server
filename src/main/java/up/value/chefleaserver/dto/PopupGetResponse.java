@@ -2,7 +2,7 @@ package up.value.chefleaserver.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import up.value.chefleaserver.common.Category;
 import up.value.chefleaserver.domain.Popup;
@@ -17,9 +17,9 @@ public record PopupGetResponse(
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd")
         LocalDate popupPeriod,
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
-        LocalDateTime popupStartTime,
+        LocalTime popupStartTime,
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
-        LocalDateTime popupEndTime,
+        LocalTime popupEndTime,
         String popupHeadChef,
         Boolean isLiked
 ) {
