@@ -4,6 +4,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import up.value.chefleaserver.domain.Menu;
 import up.value.chefleaserver.domain.Popup;
 import up.value.chefleaserver.domain.Restaurant;
 import up.value.chefleaserver.domain.User;
@@ -12,6 +13,7 @@ import up.value.chefleaserver.dto.RestaurantReservationRequest;
 import up.value.chefleaserver.dto.UserRestaurantsGetResponse;
 import up.value.chefleaserver.dto.popup.PopupRegisterPostRequest;
 import up.value.chefleaserver.dto.userRestaurant.UserRestaurantReservationRequest;
+import up.value.chefleaserver.repository.MenuRepository;
 import up.value.chefleaserver.repository.PopupRepository;
 import up.value.chefleaserver.repository.RestaurantRepository;
 import up.value.chefleaserver.repository.UserRestaurantRepository;
@@ -25,6 +27,7 @@ public class UserRestaurantService {
     private final RestaurantService restaurantService;
     private final RestaurantRepository restaurantRepository;
     private final PopupRepository popupRepository;
+    private final MenuRepository menuRepository;
 
     @Transactional(readOnly = true)
     public UserRestaurantsGetResponse getAllRegisteredRestaurant(User user) {
@@ -65,5 +68,11 @@ public class UserRestaurantService {
         userRestaurantRepository.save(userRestaurant);
         Popup popup = Popup.create(popupRegisterPostRequest, restaurant.getPeriod(), userRestaurant);
         popupRepository.save(popup);
+
+        List<Menu> menus = userRestaurantReservationRequest.menus()
+                .stream()
+                .map(menuRegisterPostRequest -> Menu.create(menuRegisterPostRequest, popup))
+                .toList();
+        menuRepository.saveAll(menus);
     }
 }
