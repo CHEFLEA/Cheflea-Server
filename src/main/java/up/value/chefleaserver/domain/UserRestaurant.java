@@ -10,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -32,4 +33,10 @@ public class UserRestaurant {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant;
+
+    @Builder
+    public UserRestaurant(User user, Restaurant restaurant) {
+        this.user = user;
+        this.restaurant = restaurant;
+    }
 }
