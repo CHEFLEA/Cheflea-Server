@@ -63,6 +63,7 @@ public class UserRestaurantService {
         Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(RuntimeException::new);
         UserRestaurant userRestaurant = UserRestaurant.create(loginUser, restaurant);
         userRestaurantRepository.save(userRestaurant);
-        popupRepository.save(Popup.create(popupRegisterPostRequest, restaurant.getPeriod(), userRestaurant));
+        Popup popup = Popup.create(popupRegisterPostRequest, restaurant.getPeriod(), userRestaurant);
+        popupRepository.save(popup);
     }
 }
