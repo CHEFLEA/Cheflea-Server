@@ -10,6 +10,7 @@ import up.value.chefleaserver.dto.PopupDetailGetResponse;
 import up.value.chefleaserver.dto.PopupGetResponse;
 import up.value.chefleaserver.dto.PopupInfoForReservationResponse;
 import up.value.chefleaserver.dto.PopupsGetResponse;
+import up.value.chefleaserver.dto.ReservationRequest;
 import up.value.chefleaserver.repository.PopupRepository;
 
 @Service
@@ -19,6 +20,7 @@ public class PopupService {
 
     private final PopupRepository popupRepository;
     private final UserService userService;
+    private final UserPopupService userPopupService;
 
     @Transactional(readOnly = true)
     public PopupsGetResponse getAllPopups(User loginUser) {
@@ -45,5 +47,10 @@ public class PopupService {
     public PopupInfoForReservationResponse getPopupInfoForReservation(User loginUser, Long popupId) {
         Popup popup = popupRepository.findById(popupId).orElseThrow(RuntimeException::new);
         return PopupInfoForReservationResponse.of(popup);
+    }
+
+    public void reservePopup(User loginUser, Long popupId, ReservationRequest request) {
+        Popup popup = popupRepository.findById(popupId).orElseThrow(RuntimeException::new);
+        userPopupService.saveReservationInfo(loginUser, popup, request);
     }
 }

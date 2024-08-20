@@ -9,8 +9,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 @Entity
@@ -39,7 +39,17 @@ public class UserPopup {
     @JoinColumn(name = "popup_id", nullable = false)
     private Popup popup;
 
-    @OneToOne(fetch = LAZY)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "time_table_id", nullable = false)
     private TimeTable timeTable;
+
+    @Builder
+    public UserPopup(String name, String phoneNumber, Integer party, User user, Popup popup, TimeTable timeTable) {
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.party = party;
+        this.user = user;
+        this.popup = popup;
+        this.timeTable = timeTable;
+    }
 }
