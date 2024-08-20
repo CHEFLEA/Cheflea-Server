@@ -50,6 +50,8 @@ public class Restaurant {
 
     private String etc;
 
+    private Integer price;
+
     private String status = "심사 완료";
 
     @ManyToOne(fetch = LAZY)

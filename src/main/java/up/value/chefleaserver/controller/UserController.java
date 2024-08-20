@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import up.value.chefleaserver.domain.User;
 import up.value.chefleaserver.dto.PopupsGetResponse;
+import up.value.chefleaserver.dto.UserRestaurantsGetResponse;
 import up.value.chefleaserver.service.PopupLikeService;
+import up.value.chefleaserver.service.UserRestaurantService;
 import up.value.chefleaserver.service.UserService;
 
 @RestController
@@ -23,6 +25,7 @@ import up.value.chefleaserver.service.UserService;
 public class UserController {
 
     private final UserService userService;
+    private final UserRestaurantService userRestaurantService;
     private final PopupLikeService popupLikeService;
 
     @PostMapping("/login")
@@ -33,6 +36,14 @@ public class UserController {
                 .body(Map.of("Authorization", token));
     }
 
+    @GetMapping("/restaurants")
+    public ResponseEntity<UserRestaurantsGetResponse> getAllRegisteredRestaurant(Principal principal) {
+        User loginUser = userService.getUserOrException(Long.valueOf(principal.getName()));
+        return ResponseEntity
+                .status(OK)
+                .body(userRestaurantService.getAllRegisteredRestaurant(loginUser));
+    }
+    
     @GetMapping("/favorites")
     public ResponseEntity<PopupsGetResponse> getPopupFavorites(Principal principal) {
         User loginUser = userService.getUserOrException(Long.valueOf(principal.getName()));
