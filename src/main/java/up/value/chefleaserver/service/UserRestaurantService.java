@@ -15,7 +15,9 @@ import up.value.chefleaserver.domain.UserRestaurant;
 import up.value.chefleaserver.dto.RestaurantReservationRequest;
 import up.value.chefleaserver.dto.UserRestaurantsGetResponse;
 import up.value.chefleaserver.dto.popup.PopupRegisterPostRequest;
+import up.value.chefleaserver.dto.restaurant.RestaurantGetResponse;
 import up.value.chefleaserver.dto.userRestaurant.UserRestaurantReservationRequest;
+import up.value.chefleaserver.dto.userRestaurant.UserRestaurantReservationResponse;
 import up.value.chefleaserver.repository.MenuRepository;
 import up.value.chefleaserver.repository.PopupCategoryRepository;
 import up.value.chefleaserver.repository.PopupRepository;
@@ -64,9 +66,9 @@ public class UserRestaurantService {
         userRestaurantRepository.save(userRestaurant);
     }
 
-    public void registerUserRestaurantReservation(Long restaurantId,
-                                                  User loginUser,
-                                                  UserRestaurantReservationRequest userRestaurantReservationRequest) {
+    public UserRestaurantReservationResponse registerUserRestaurantReservation(Long restaurantId,
+                                                                               User loginUser,
+                                                                               UserRestaurantReservationRequest userRestaurantReservationRequest) {
         PopupRegisterPostRequest popupRegisterPostRequest = userRestaurantReservationRequest.popupInfo();
         Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(RuntimeException::new);
         UserRestaurant userRestaurant = UserRestaurant.create(loginUser, restaurant);
@@ -85,6 +87,8 @@ public class UserRestaurantService {
                 .map(koreanLabel -> PopupCategory.create(getCategoryByKoreanLabel(koreanLabel), popup))
                 .toList();
         popupCategoryRepository.saveAll(popupCategories);
+
+        return UserRestaurantReservationResponse.of(RestaurantGetResponse.of(restaurant));
     }
 
     private Category getCategoryByKoreanLabel(String koreanLabel) {

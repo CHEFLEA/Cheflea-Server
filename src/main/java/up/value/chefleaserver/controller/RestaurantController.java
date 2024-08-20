@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import up.value.chefleaserver.domain.User;
 import up.value.chefleaserver.dto.RestaurantReservationRequest;
 import up.value.chefleaserver.dto.userRestaurant.UserRestaurantReservationRequest;
+import up.value.chefleaserver.dto.userRestaurant.UserRestaurantReservationResponse;
 import up.value.chefleaserver.service.UserRestaurantService;
 import up.value.chefleaserver.service.UserService;
 
@@ -35,15 +36,14 @@ public class RestaurantController {
     }
 
     @PostMapping("/{restaurantId}/reservations")
-    public ResponseEntity<Void> registerUserRestaurantReservation(Principal principal,
-                                                                  @PathVariable("restaurantId") Long restaurantId,
-                                                                  @RequestBody UserRestaurantReservationRequest userRestaurantReservationRequest) {
+    public ResponseEntity<UserRestaurantReservationResponse> registerUserRestaurantReservation(Principal principal,
+                                                                                               @PathVariable("restaurantId") Long restaurantId,
+                                                                                               @RequestBody UserRestaurantReservationRequest userRestaurantReservationRequest) {
         User loginUser = userService.getUserOrException(Long.valueOf(principal.getName()));
-        userRestaurantService
-                .registerUserRestaurantReservation(restaurantId, loginUser, userRestaurantReservationRequest);
 
         return ResponseEntity
                 .status(CREATED)
-                .build();
+                .body(userRestaurantService
+                        .registerUserRestaurantReservation(restaurantId, loginUser, userRestaurantReservationRequest));
     }
 }
