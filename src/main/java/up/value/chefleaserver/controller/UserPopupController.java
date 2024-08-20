@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import up.value.chefleaserver.domain.User;
-import up.value.chefleaserver.dto.ReservationGetResponse;
+import up.value.chefleaserver.dto.ReservationsGetResponse;
+import up.value.chefleaserver.dto.UserPopupGetResponse;
 import up.value.chefleaserver.service.UserPopupService;
 import up.value.chefleaserver.service.UserService;
 
@@ -19,15 +20,25 @@ import up.value.chefleaserver.service.UserService;
 @RequestMapping("/reservations")
 public class UserPopupController {
 
-    private final UserPopupService userPopupService;
     private final UserService userService;
+    private final UserPopupService userPopupService;
+
+    @GetMapping("/customer")
+    public ResponseEntity<ReservationsGetResponse> getAllReservation(Principal principal) {
+        User loginUser = userService.getUserOrException(Long.valueOf(principal.getName()));
+        return ResponseEntity
+                .status(OK)
+                .body(userPopupService.getAllReservation(loginUser));
+    }
 
     @GetMapping("/client/{reservationId}")
-    public ResponseEntity<ReservationGetResponse> getReservationInfo(Principal principal,
-                                                                     @PathVariable Long reservationId) {
+    public ResponseEntity<UserPopupGetResponse> getReservationInfo(Principal principal,
+                                                                   @PathVariable Long reservationId) {
+
         User loginUser = userService.getUserOrException(Long.valueOf(principal.getName()));
         return ResponseEntity
                 .status(OK)
                 .body(userPopupService.getReservationInfo(reservationId));
     }
 }
+    
