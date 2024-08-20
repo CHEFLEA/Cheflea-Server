@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import up.value.chefleaserver.domain.User;
-import up.value.chefleaserver.dto.PopupFavoritesGetResponse;
+import up.value.chefleaserver.dto.PopupsGetResponse;
 import up.value.chefleaserver.service.PopupLikeService;
 import up.value.chefleaserver.service.UserService;
 
@@ -34,7 +34,7 @@ public class UserController {
     }
 
     @GetMapping("/favorites")
-    public ResponseEntity<PopupFavoritesGetResponse> getPopupFavorites(Principal principal) {
+    public ResponseEntity<PopupsGetResponse> getPopupFavorites(Principal principal) {
         User loginUser = userService.getUserOrException(Long.valueOf(principal.getName()));
         return ResponseEntity
                 .status(OK)
