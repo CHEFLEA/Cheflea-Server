@@ -29,7 +29,13 @@ public class Restaurant {
 
     private String image;
 
+    private String city;
+
+    private String district;
+
     private String address;
+
+    private String detailedAddress;
 
     private LocalDate period;
 
