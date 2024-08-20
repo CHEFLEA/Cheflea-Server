@@ -3,7 +3,7 @@ package up.value.chefleaserver.dto.restaurant;
 import java.time.LocalDate;
 import up.value.chefleaserver.domain.Restaurant;
 
-public record RestaurantGetResponse(
+public record UserRestaurantReservationRestaurantGetResponse(
         String restaurantName,
         String restaurantImage,
         String restaurantAddress,
@@ -11,8 +11,8 @@ public record RestaurantGetResponse(
         Integer restaurantPrice
 ) {
 
-    public static RestaurantGetResponse of(Restaurant restaurant) {
-        return new RestaurantGetResponse(
+    public static UserRestaurantReservationRestaurantGetResponse of(Restaurant restaurant) {
+        return new UserRestaurantReservationRestaurantGetResponse(
                 restaurant.getName(),
                 restaurant.getImage(),
                 restaurant.getAddress(),
