@@ -6,6 +6,7 @@ import up.value.chefleaserver.dto.popup.PopupRegisterPostRequest;
 
 public record UserRestaurantReservationRequest(
         PopupRegisterPostRequest popupInfo,
-        List<MenuRegisterPostRequest> menus
+        List<MenuRegisterPostRequest> menus,
+        List<String> foodCategories
 ) {
 }
