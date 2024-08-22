@@ -6,7 +6,8 @@ public record RestaurantGetResponse(
         String restaurantImage,
         String restaurantName,
         String restaurantAddress,
-        Integer restaurantPrice
+        Integer restaurantPrice,
+        Boolean isLiked
 ) {
 
     public static RestaurantGetResponse of(Restaurant restaurant) {
