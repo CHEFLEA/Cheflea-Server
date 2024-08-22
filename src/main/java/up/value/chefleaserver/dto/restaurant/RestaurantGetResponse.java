@@ -10,12 +10,13 @@ public record RestaurantGetResponse(
         Boolean isLiked
 ) {
 
-    public static RestaurantGetResponse of(Restaurant restaurant) {
+    public static RestaurantGetResponse of(Restaurant restaurant, Boolean isLiked) {
         return new RestaurantGetResponse(
                 restaurant.getImage(),
                 restaurant.getName(),
                 restaurant.getAddress(),
-                restaurant.getPrice()
+                restaurant.getPrice(),
+                isLiked
         );
     }
 }

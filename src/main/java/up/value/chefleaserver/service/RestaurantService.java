@@ -30,7 +30,7 @@ public class RestaurantService {
                     boolean isLiked = restaurant.getRestaurantLikes()
                             .stream()
                             .anyMatch(restaurantLike -> restaurantLike.getUser().equals(loginUser));
-                    return RestaurantGetResponse.of(restaurant);
+                    return RestaurantGetResponse.of(restaurant, isLiked);
                 })
                 .toList();
         return RestaurantsGetResponse.of(restaurantGetResponses);
