@@ -26,7 +26,12 @@ public class RestaurantService {
         List<Restaurant> restaurants = restaurantRepository.findAll();
 
         List<RestaurantGetResponse> restaurantGetResponses = restaurants.stream()
-                .map(RestaurantGetResponse::of)
+                .map(restaurant -> {
+                    boolean isLiked = restaurant.getRestaurantLikes()
+                            .stream()
+                            .anyMatch(restaurantLike -> restaurantLike.getUser().equals(loginUser));
+                    return RestaurantGetResponse.of(restaurant);
+                })
                 .toList();
         return RestaurantsGetResponse.of(restaurantGetResponses);
     }
