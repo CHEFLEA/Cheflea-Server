@@ -11,6 +11,7 @@ import up.value.chefleaserver.dto.ReservationGetResponse;
 import up.value.chefleaserver.dto.ReservationRequest;
 import up.value.chefleaserver.dto.ReservationsGetResponse;
 import up.value.chefleaserver.dto.popup.ChefReservationGetResponse;
+import up.value.chefleaserver.dto.popup.PopupInfoChefGetResponse;
 import up.value.chefleaserver.dto.restaurant.RestaurantChefGetResponse;
 import up.value.chefleaserver.repository.UserPopupRepository;
 
@@ -56,6 +57,7 @@ public class UserPopupService {
                 .orElseThrow(RuntimeException::new);
 
         return ChefReservationGetResponse.of(
-                RestaurantChefGetResponse.of(userPopup.getPopup().getUserRestaurant().getRestaurant()));
+                RestaurantChefGetResponse.of(userPopup.getPopup().getUserRestaurant().getRestaurant()),
+                PopupInfoChefGetResponse.of(userPopup.getPopup()));
     }
 }
