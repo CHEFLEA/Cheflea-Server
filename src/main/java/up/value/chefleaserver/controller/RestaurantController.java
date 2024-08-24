@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import up.value.chefleaserver.domain.User;
 import up.value.chefleaserver.dto.RestaurantReservationRequest;
+import up.value.chefleaserver.dto.restaurant.RestaurantInfoGetResponse;
 import up.value.chefleaserver.dto.restaurant.RestaurantsGetResponse;
 import up.value.chefleaserver.dto.userRestaurant.UserRestaurantReservationRequest;
 import up.value.chefleaserver.dto.userRestaurant.UserRestaurantReservationResponse;
