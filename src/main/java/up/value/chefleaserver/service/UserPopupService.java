@@ -48,4 +48,12 @@ public class UserPopupService {
         return ReservationGetResponse.of(userPopup);
     }
 
+    public void deleteReservation(User loginUser, Long reservationId) {
+        UserPopup userPopup = userPopupRepository.findById(reservationId).orElseThrow(RuntimeException::new);
+        if (userPopup.getUser().equals(loginUser)) {
+            userPopupRepository.delete(userPopup);
+        } else {
+            throw new RuntimeException("본인의 예약이 아닙니다.");
+        }
+    }
 }
