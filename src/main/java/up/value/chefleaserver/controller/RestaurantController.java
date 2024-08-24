@@ -59,4 +59,13 @@ public class RestaurantController {
                 .status(OK)
                 .body(restaurantService.getRestaurants(loginUser));
     }
+
+    @GetMapping("/{restaurantId}")
+    public ResponseEntity<RestaurantInfoGetResponse> getRestaurant(Principal principal,
+                                                                   @PathVariable("restaurantId") Long restaurantId) {
+        User loginUser = userService.getUserOrException(Long.valueOf(principal.getName()));
+        return ResponseEntity
+                .status(OK)
+                .body(restaurantService.getRestaurant(loginUser, restaurantId));
+    }
 }
