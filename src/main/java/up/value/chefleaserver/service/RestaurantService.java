@@ -1,7 +1,6 @@
 package up.value.chefleaserver.service;
 
 import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,5 +41,7 @@ public class RestaurantService {
     public RestaurantInfoGetResponse getRestaurant(User loginUser, Long restaurantId) {
         Restaurant restaurant = restaurantRepository.findById(restaurantId)
                 .orElseThrow(RuntimeException::new);
+
+        return RestaurantInfoGetResponse.of(restaurant);
     }
 }
