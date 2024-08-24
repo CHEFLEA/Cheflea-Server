@@ -4,12 +4,14 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import up.value.chefleaserver.domain.Menu;
 import up.value.chefleaserver.domain.Popup;
 import up.value.chefleaserver.domain.User;
 import up.value.chefleaserver.domain.UserPopup;
 import up.value.chefleaserver.dto.ReservationGetResponse;
 import up.value.chefleaserver.dto.ReservationRequest;
 import up.value.chefleaserver.dto.ReservationsGetResponse;
+import up.value.chefleaserver.dto.menu.UserRestaurantReservationMenuGetResponse;
 import up.value.chefleaserver.dto.popup.ChefReservationGetResponse;
 import up.value.chefleaserver.dto.popup.PopupInfoChefGetResponse;
 import up.value.chefleaserver.dto.restaurant.RestaurantChefGetResponse;
@@ -55,9 +57,15 @@ public class UserPopupService {
     public ChefReservationGetResponse getChefReservation(Long reservationId) {
         UserPopup userPopup = userPopupRepository.findById(reservationId)
                 .orElseThrow(RuntimeException::new);
+        List<UserRestaurantReservationMenuGetResponse> userRestaurantReservationMenuGetResponses = userPopup.getPopup()
+                .getPopupmenus()
+                .stream()
+                .map(UserRestaurantReservationMenuGetResponse::of)
+                .toList();
 
         return ChefReservationGetResponse.of(
                 RestaurantChefGetResponse.of(userPopup.getPopup().getUserRestaurant().getRestaurant()),
-                PopupInfoChefGetResponse.of(userPopup.getPopup()));
+                PopupInfoChefGetResponse.of(userPopup.getPopup()),
+                userRestaurantReservationMenuGetResponses);
     }
 }
