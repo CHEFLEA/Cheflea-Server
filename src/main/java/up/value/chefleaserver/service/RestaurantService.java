@@ -41,6 +41,9 @@ public class RestaurantService {
     public RestaurantInfoGetResponse getRestaurant(User loginUser, Long restaurantId) {
         Restaurant restaurant = restaurantRepository.findById(restaurantId)
                 .orElseThrow(RuntimeException::new);
+        boolean isLiked = restaurant.getRestaurantLikes()
+                .stream()
+                .anyMatch(restaurantLike -> restaurantLike.getUser().equals(loginUser));
 
         return RestaurantInfoGetResponse.of(restaurant);
     }
