@@ -7,16 +7,19 @@ import up.value.chefleaserver.dto.restaurant.RestaurantChefGetResponse;
 public record ChefReservationGetResponse(
         RestaurantChefGetResponse restaurant,
         PopupInfoChefGetResponse popupInfo,
-        List<UserRestaurantReservationMenuGetResponse> menus
+        List<UserRestaurantReservationMenuGetResponse> menus,
+        List<String> foodCategories
 ) {
 
     public static ChefReservationGetResponse of(RestaurantChefGetResponse restaurantChefGetResponse,
                                                 PopupInfoChefGetResponse popupInfoChefGetResponse,
-                                                List<UserRestaurantReservationMenuGetResponse> userRestaurantReservationMenuGetResponses) {
+                                                List<UserRestaurantReservationMenuGetResponse> userRestaurantReservationMenuGetResponses,
+                                                List<String> categories) {
         return new ChefReservationGetResponse(
                 restaurantChefGetResponse,
                 popupInfoChefGetResponse,
-                userRestaurantReservationMenuGetResponses
+                userRestaurantReservationMenuGetResponses,
+                categories
         );
     }
 }

@@ -4,8 +4,9 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import up.value.chefleaserver.domain.Menu;
+import up.value.chefleaserver.common.Category;
 import up.value.chefleaserver.domain.Popup;
+import up.value.chefleaserver.domain.PopupCategory;
 import up.value.chefleaserver.domain.User;
 import up.value.chefleaserver.domain.UserPopup;
 import up.value.chefleaserver.dto.ReservationGetResponse;
@@ -63,9 +64,17 @@ public class UserPopupService {
                 .map(UserRestaurantReservationMenuGetResponse::of)
                 .toList();
 
+        List<String> categoriesByKoreanLabel = userPopup.getPopup()
+                .getPopupCategories()
+                .stream()
+                .map(PopupCategory::getCategory)
+                .map(Category::getKoreanLabel)
+                .toList();
+
         return ChefReservationGetResponse.of(
                 RestaurantChefGetResponse.of(userPopup.getPopup().getUserRestaurant().getRestaurant()),
                 PopupInfoChefGetResponse.of(userPopup.getPopup()),
-                userRestaurantReservationMenuGetResponses);
+                userRestaurantReservationMenuGetResponses,
+                categoriesByKoreanLabel);
     }
 }
