@@ -13,11 +13,11 @@ public record RestaurantInfoGetResponse(
         LocalDate restaurantPeriod,
         Integer price,
         List<String> restaurantDescription,
-        ToolGetResponse tools
-
+        ToolGetResponse tools,
+        Boolean isLiked
 ) {
 
-    public static RestaurantInfoGetResponse of(Restaurant restaurant) {
+    public static RestaurantInfoGetResponse of(Restaurant restaurant, Boolean isLiked) {
         List<String> restaurantDescription = restaurant.getRestaurantDescriptions()
                 .stream()
                 .map(RestaurantDescription::getDescription)
@@ -30,7 +30,8 @@ public record RestaurantInfoGetResponse(
                 restaurant.getPeriod(),
                 restaurant.getPrice(),
                 restaurantDescription,
-                ToolGetResponse.of(restaurant)
+                ToolGetResponse.of(restaurant),
+                isLiked
         );
     }
 }

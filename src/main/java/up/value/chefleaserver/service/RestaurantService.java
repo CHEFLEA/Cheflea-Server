@@ -45,6 +45,6 @@ public class RestaurantService {
                 .stream()
                 .anyMatch(restaurantLike -> restaurantLike.getUser().equals(loginUser));
 
-        return RestaurantInfoGetResponse.of(restaurant);
+        return RestaurantInfoGetResponse.of(restaurant, isLiked);
     }
 }
