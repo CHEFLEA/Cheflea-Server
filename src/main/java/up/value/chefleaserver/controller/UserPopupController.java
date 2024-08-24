@@ -1,10 +1,12 @@
 package up.value.chefleaserver.controller;
 
+import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.HttpStatus.OK;
 
 import java.security.Principal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,6 +41,16 @@ public class UserPopupController {
         return ResponseEntity
                 .status(OK)
                 .body(userPopupService.getReservationInfo(reservationId));
+    }
+
+    @DeleteMapping("/{reservationId}")
+    public ResponseEntity<Void> deleteReservation(Principal principal,
+                                                  @PathVariable Long reservationId) {
+        User loginUser = userService.getUserOrException(Long.valueOf(principal.getName()));
+        userPopupService.deleteReservation(loginUser, reservationId);
+        return ResponseEntity
+                .status(NO_CONTENT)
+                .build();
     }
 }
     
