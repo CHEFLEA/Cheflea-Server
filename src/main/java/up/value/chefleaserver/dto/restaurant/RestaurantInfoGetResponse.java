@@ -12,7 +12,8 @@ public record RestaurantInfoGetResponse(
         String restaurantAddress,
         LocalDate restaurantPeriod,
         Integer price,
-        List<String> restaurantDescription
+        List<String> restaurantDescription,
+        ToolGetResponse tools
 
 ) {
 
@@ -28,7 +29,8 @@ public record RestaurantInfoGetResponse(
                 restaurant.getAddress(),
                 restaurant.getPeriod(),
                 restaurant.getPrice(),
-                restaurantDescription
+                restaurantDescription,
+                ToolGetResponse.of(restaurant)
         );
     }
 }
