@@ -1,9 +1,17 @@
 package up.value.chefleaserver.service;
 
+import static up.value.chefleaserver.common.FilterCategory.CREATED_TIME_DESC;
+import static up.value.chefleaserver.common.FilterCategory.LIKE_DESC;
+import static up.value.chefleaserver.common.FilterCategory.PERIOD_DESC;
+import static up.value.chefleaserver.common.FilterCategory.RECOMMENDATION;
+
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import up.value.chefleaserver.common.FilterCategory;
 import up.value.chefleaserver.domain.Popup;
 import up.value.chefleaserver.domain.User;
 import up.value.chefleaserver.dto.PopupDetailGetResponse;
