@@ -5,6 +5,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
 import java.security.Principal;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,15 +31,7 @@ public class PopupController {
     private final PopupService popupService;
     private final UserService userService;
 
-    @GetMapping
-    public ResponseEntity<PopupsGetResponse> getAllPopups(Principal principal) {
-        User loginUser = userService.getUserOrException(Long.valueOf(principal.getName()));
-        return ResponseEntity
-                .status(OK)
-                .body(popupService.getAllPopups(loginUser));
-    }
-
-    @GetMapping("/{popupId}")
+    @GetMapping("/{popupId:\\d+}")
     public ResponseEntity<PopupDetailGetResponse> getPopup(Principal principal, @PathVariable("popupId") Long popupId) {
         User loginUser = userService.getUserOrException(Long.valueOf(principal.getName()));
         return ResponseEntity
@@ -66,12 +59,14 @@ public class PopupController {
                 .build();
     }
 
-    @GetMapping
-    public ResponseEntity<PopupsGetResponse> getFilteredPopups(Principal principal, @PathVariable("filter-category")
-    FilterCategory filterCategory) {
+    @GetMapping(value = {"", "/{filter-category}", "/{search-keyword}", "/{filter-category}/{search-keyword}"})
+    public ResponseEntity<PopupsGetResponse> getFilteredPopups(Principal principal,
+                                                               @PathVariable("filter-category")
+                                                               Optional<FilterCategory> filterCategory,
+                                                               @PathVariable("search-keyword") Optional<String> searchKeyword) {
         User loginUser = userService.getUserOrException(Long.valueOf(principal.getName()));
         return ResponseEntity
                 .status(OK)
-                .body(popupService.getFilteredPopups(loginUser, filterCategory));
+                .body(popupService.getFilteredPopups(loginUser, filterCategory, searchKeyword));
     }
 }
