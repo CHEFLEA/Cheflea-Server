@@ -14,6 +14,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import up.value.chefleaserver.common.Role;
+import up.value.chefleaserver.dto.user.RegisterUserRequest;
 
 @Entity
 @Getter
@@ -36,4 +37,10 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<Career> chefCareers;
+
+    public void registerChef(RegisterUserRequest registerUserRequest) {
+        this.chefImage = registerUserRequest.userImage();
+        this.name = registerUserRequest.name();
+        this.phoneNumber = registerUserRequest.phoneNumber();
+    }
 }

@@ -8,6 +8,7 @@ import up.value.chefleaserver.config.jwt.UserAuthentication;
 import up.value.chefleaserver.domain.Popup;
 import up.value.chefleaserver.domain.PopupLike;
 import up.value.chefleaserver.domain.User;
+import up.value.chefleaserver.dto.user.RegisterUserRequest;
 import up.value.chefleaserver.repository.UserRepository;
 
 @Service
@@ -37,5 +38,9 @@ public class UserService {
                 .map(PopupLike::getUser)
                 .toList()
                 .contains(loginUser);
+    }
+
+    public void registerUser(User loginUser, RegisterUserRequest registerUserRequest) {
+        loginUser.registerChef(registerUserRequest);
     }
 }
