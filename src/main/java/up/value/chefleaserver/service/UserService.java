@@ -1,14 +1,17 @@
 package up.value.chefleaserver.service;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import up.value.chefleaserver.config.jwt.JwtProvider;
 import up.value.chefleaserver.config.jwt.UserAuthentication;
+import up.value.chefleaserver.domain.Career;
 import up.value.chefleaserver.domain.Popup;
 import up.value.chefleaserver.domain.PopupLike;
 import up.value.chefleaserver.domain.User;
 import up.value.chefleaserver.dto.user.RegisterUserRequest;
+import up.value.chefleaserver.repository.CareerRepository;
 import up.value.chefleaserver.repository.UserRepository;
 
 @Service
@@ -18,7 +21,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final JwtProvider jwtProvider;
-
+    private final CareerRepository careerRepository;
 
     public String login(Long userId) {
         User user = getUserOrException(userId);
@@ -42,5 +45,11 @@ public class UserService {
 
     public void registerUser(User loginUser, RegisterUserRequest registerUserRequest) {
         loginUser.registerChef(registerUserRequest);
+
+        List<Career> careers = registerUserRequest.careers()
+                .stream()
+                .map(career -> Career.create(loginUser, career))
+                .toList();
+        careerRepository.saveAll(careers);
     }
 }
