@@ -7,11 +7,13 @@ import org.springframework.transaction.annotation.Transactional;
 import up.value.chefleaserver.config.jwt.JwtProvider;
 import up.value.chefleaserver.config.jwt.UserAuthentication;
 import up.value.chefleaserver.domain.Career;
+import up.value.chefleaserver.domain.Certificate;
 import up.value.chefleaserver.domain.Popup;
 import up.value.chefleaserver.domain.PopupLike;
 import up.value.chefleaserver.domain.User;
 import up.value.chefleaserver.dto.user.RegisterUserRequest;
 import up.value.chefleaserver.repository.CareerRepository;
+import up.value.chefleaserver.repository.CertificateRepository;
 import up.value.chefleaserver.repository.UserRepository;
 
 @Service
@@ -22,6 +24,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final JwtProvider jwtProvider;
     private final CareerRepository careerRepository;
+    private final CertificateRepository certificateRepository;
 
     public String login(Long userId) {
         User user = getUserOrException(userId);
@@ -51,5 +54,11 @@ public class UserService {
                 .map(career -> Career.create(loginUser, career))
                 .toList();
         careerRepository.saveAll(careers);
+
+        List<Certificate> certificates = registerUserRequest.certificates()
+                .stream()
+                .map(registerCertificateRequest -> Certificate.create(loginUser, registerCertificateRequest))
+                .toList();
+        certificateRepository.saveAll(certificates);
     }
 }

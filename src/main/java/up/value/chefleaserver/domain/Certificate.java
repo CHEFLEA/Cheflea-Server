@@ -11,6 +11,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import up.value.chefleaserver.dto.user.RegisterCertificateRequest;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -30,4 +31,15 @@ public class Certificate {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    private Certificate(User user, RegisterCertificateRequest registerCertificateRequest) {
+        this.user = user;
+        this.image = registerCertificateRequest.certificateImage();
+        this.number = registerCertificateRequest.certificateNumber();
+        this.type = registerCertificateRequest.certificateType();
+    }
+
+    public static Certificate create(User user, RegisterCertificateRequest registerCertificateRequest) {
+        return new Certificate(user, registerCertificateRequest);
+    }
 }
