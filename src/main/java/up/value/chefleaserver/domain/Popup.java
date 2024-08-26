@@ -10,6 +10,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +38,8 @@ public class Popup {
     private LocalTime startTime;
 
     private LocalTime endTime;
+
+    private LocalDateTime createdTime;
 
     @OneToMany(mappedBy = "popup")
     private List<PopupCategory> popupCategories = new ArrayList<>();
