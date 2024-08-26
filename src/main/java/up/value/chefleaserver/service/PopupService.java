@@ -23,20 +23,6 @@ public class PopupService {
     private final UserPopupService userPopupService;
 
     @Transactional(readOnly = true)
-    public PopupsGetResponse getAllPopups(User loginUser) {
-        List<Popup> popups = popupRepository.findAll();
-
-        List<PopupGetResponse> popupGetResponses = popups.stream()
-                .map(popup -> {
-                    boolean isLiked = userService.isLikedByUser(loginUser, popup);
-                    return PopupGetResponse.of(popup, isLiked);
-                })
-                .toList();
-
-        return PopupsGetResponse.of(popupGetResponses);
-    }
-
-    @Transactional(readOnly = true)
     public PopupDetailGetResponse getPopup(User loginUser, Long popupId) {
         Popup popup = popupRepository.findById(popupId).orElseThrow(RuntimeException::new);
         boolean isLiked = userService.isLikedByUser(loginUser, popup);
@@ -52,5 +38,34 @@ public class PopupService {
     public void reservePopup(User loginUser, Long popupId, ReservationRequest request) {
         Popup popup = popupRepository.findById(popupId).orElseThrow(RuntimeException::new);
         userPopupService.saveReservationInfo(loginUser, popup, request);
+    }
+
+    @Transactional(readOnly = true)
+    public PopupsGetResponse getFilteredPopups(User loginUser, Optional<FilterCategory> filterCategory,
+                                               Optional<String> searchKeyword) {
+        FilterCategory filter = filterCategory.orElse(RECOMMENDATION);
+        String keyword = searchKeyword.orElse("");
+        List<Popup> popups = new ArrayList<>();
+        if ((RECOMMENDATION).equals(filter)) {
+            popups = popupRepository.findByNameContainingOrderByPeriodDescCreatedTimeDescPopupLikesDesc(keyword);
+        }
+        if ((CREATED_TIME_DESC).equals(filter)) {
+            popups = popupRepository.findByNameContainingOrderByCreatedTimeDesc(keyword);
+        }
+        if ((LIKE_DESC).equals(filter)) {
+            popups = popupRepository.findByNameContainingOrderByPopupLikesDesc(keyword);
+        }
+        if ((PERIOD_DESC).equals(filter)) {
+            popups = popupRepository.findByNameContainingOrderByPeriodDesc(keyword);
+        }
+        List<PopupGetResponse> popupGetResponses = popups.stream()
+                .map(popup -> {
+                    System.out.println("popup = " + popup.toString());
+                    boolean isLiked = userService.isLikedByUser(loginUser, popup);
+                    return PopupGetResponse.of(popup, isLiked);
+                })
+                .toList();
+
+        return PopupsGetResponse.of(popupGetResponses);
     }
 }
