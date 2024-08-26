@@ -64,6 +64,7 @@ public class Popup {
         this.period = restaurantPeriod;
         this.startTime = popupRegisterPostRequest.popupStartTime();
         this.endTime = popupRegisterPostRequest.popupEndTime();
+        this.createdTime = LocalDateTime.now();
         this.userRestaurant = userRestaurant;
     }
 
