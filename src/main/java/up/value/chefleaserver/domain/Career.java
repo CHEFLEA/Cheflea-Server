@@ -28,4 +28,14 @@ public class Career {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    private Career(User user, String description) {
+        this.user = user;
+        this.description = description;
+
+    }
+
+    public static Career create(User user, String description) {
+        return new Career(user, description);
+    }
 }

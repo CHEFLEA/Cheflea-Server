@@ -64,6 +64,9 @@ public class Restaurant {
     @OneToMany(mappedBy = "restaurant")
     private List<RestaurantLike> restaurantLikes = new ArrayList<>();
 
+    @OneToMany(mappedBy = "restaurant")
+    private List<RestaurantDescription> restaurantDescriptions = new ArrayList<>();
+
     @Builder
     public Restaurant(String name, String image, String city, String district, String address, String detailedAddress,
                       LocalDate period, LocalTime startTime, LocalTime endTime, String hall, String kitchen,

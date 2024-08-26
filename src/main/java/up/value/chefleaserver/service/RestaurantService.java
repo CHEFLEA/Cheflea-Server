@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import up.value.chefleaserver.domain.Restaurant;
 import up.value.chefleaserver.domain.User;
 import up.value.chefleaserver.dto.restaurant.RestaurantGetResponse;
+import up.value.chefleaserver.dto.restaurant.RestaurantInfoGetResponse;
 import up.value.chefleaserver.dto.restaurant.RestaurantsGetResponse;
 import up.value.chefleaserver.repository.RestaurantRepository;
 
@@ -34,5 +35,16 @@ public class RestaurantService {
                 })
                 .toList();
         return RestaurantsGetResponse.of(restaurantGetResponses);
+    }
+
+    @Transactional(readOnly = true)
+    public RestaurantInfoGetResponse getRestaurant(User loginUser, Long restaurantId) {
+        Restaurant restaurant = restaurantRepository.findById(restaurantId)
+                .orElseThrow(RuntimeException::new);
+        boolean isLiked = restaurant.getRestaurantLikes()
+                .stream()
+                .anyMatch(restaurantLike -> restaurantLike.getUser().equals(loginUser));
+
+        return RestaurantInfoGetResponse.of(restaurant, isLiked);
     }
 }
