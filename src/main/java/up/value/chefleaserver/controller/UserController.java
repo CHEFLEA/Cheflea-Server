@@ -2,7 +2,6 @@ package up.value.chefleaserver.controller;
 
 
 import static org.springframework.http.HttpStatus.CREATED;
-import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.HttpStatus.OK;
 
 import java.security.Principal;
