@@ -73,10 +73,10 @@ public class RestaurantController {
     }
 
     @GetMapping("/likes")
-    public ResponseEntity<RestaurantsGetResponse> getLikesRestaurant(Principal principal) {
+    public ResponseEntity<RestaurantsGetResponse> getLikedRestaurants(Principal principal) {
         User loginUser = userService.getUserOrException(Long.valueOf(principal.getName()));
         return ResponseEntity
                 .status(OK)
-                .body(restaurantLikeService.getLikesRestaurant(loginUser));
+                .body(restaurantLikeService.getLikedRestaurants(loginUser));
     }
 }
