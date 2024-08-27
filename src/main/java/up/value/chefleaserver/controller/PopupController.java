@@ -5,7 +5,6 @@ import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
 import java.security.Principal;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import up.value.chefleaserver.common.FilterCategory;
 import up.value.chefleaserver.domain.User;
@@ -33,17 +33,21 @@ public class PopupController {
     private final UserService userService;
     private final PopupLikeService popupLikeService;
 
-    @GetMapping("/{popupId:\\d+}")
+    @GetMapping("/{popupId}")
     public ResponseEntity<PopupDetailGetResponse> getPopup(Principal principal, @PathVariable("popupId") Long popupId) {
         User loginUser = userService.getUserOrException(Long.valueOf(principal.getName()));
-        return ResponseEntity.status(OK).body(popupService.getPopup(loginUser, popupId));
+        return ResponseEntity
+                .status(OK)
+                .body(popupService.getPopup(loginUser, popupId));
     }
 
     @GetMapping("/{popupId}/reservations")
     public ResponseEntity<PopupInfoForReservationResponse> getPopupInfoForReservation(Principal principal,
                                                                                       @PathVariable("popupId") Long popupId) {
         User loginUser = userService.getUserOrException(Long.valueOf(principal.getName()));
-        return ResponseEntity.status(OK).body(popupService.getPopupInfoForReservation(loginUser, popupId));
+        return ResponseEntity
+                .status(OK)
+                .body(popupService.getPopupInfoForReservation(loginUser, popupId));
     }
 
     @PostMapping("/{popupId}/reservations")
@@ -51,26 +55,31 @@ public class PopupController {
                                              @RequestBody ReservationRequest request) {
         User loginUser = userService.getUserOrException(Long.valueOf(principal.getName()));
         popupService.reservePopup(loginUser, popupId, request);
-        return ResponseEntity.status(CREATED).build();
+        return ResponseEntity
+                .status(CREATED)
+                .build();
     }
 
     @GetMapping("/likes")
     public ResponseEntity<PopupsGetResponse> getPopupFavorites(Principal principal) {
         User loginUser = userService.getUserOrException(Long.valueOf(principal.getName()));
-        return ResponseEntity.status(OK).body(popupLikeService.getPopupFavorites(loginUser));
+        return ResponseEntity
+                .status(OK)
+                .body(popupLikeService.getPopupFavorites(loginUser));
     }
 
     @PostMapping("/likes/{popup_id}")
     ResponseEntity<Void> registerPopupLike(Principal principal, @PathVariable("popup_id") Long popupId) {
         User loginUser = userService.getUserOrException(Long.valueOf(principal.getName()));
-        return ResponseEntity.status(popupLikeService.registerOrDeletePopupLike(loginUser, popupId)).build();
+        return ResponseEntity
+                .status(popupLikeService.registerOrDeletePopupLike(loginUser, popupId))
+                .build();
     }
 
-    @GetMapping(value = {"", "/{filter-category}", "/{search-keyword}", "/{filter-category}/{search-keyword}"})
+    @GetMapping
     public ResponseEntity<PopupsGetResponse> getFilteredPopups(Principal principal,
-                                                               @PathVariable("filter-category")
-                                                               Optional<FilterCategory> filterCategory,
-                                                               @PathVariable("search-keyword") Optional<String> searchKeyword) {
+                                                               @RequestParam(name = "filter-category", defaultValue = "RECOMMENDATION") FilterCategory filterCategory,
+                                                               @RequestParam(name = "search-keyword", defaultValue = "") String searchKeyword) {
         User loginUser = userService.getUserOrException(Long.valueOf(principal.getName()));
         return ResponseEntity
                 .status(OK)
