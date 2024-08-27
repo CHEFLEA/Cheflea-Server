@@ -18,6 +18,7 @@ import up.value.chefleaserver.dto.restaurant.RestaurantInfoGetResponse;
 import up.value.chefleaserver.dto.restaurant.RestaurantsGetResponse;
 import up.value.chefleaserver.dto.userRestaurant.UserRestaurantReservationRequest;
 import up.value.chefleaserver.dto.userRestaurant.UserRestaurantReservationResponse;
+import up.value.chefleaserver.service.RestaurantLikeService;
 import up.value.chefleaserver.service.RestaurantService;
 import up.value.chefleaserver.service.UserRestaurantService;
 import up.value.chefleaserver.service.UserService;
@@ -30,6 +31,7 @@ public class RestaurantController {
     private final UserRestaurantService userRestaurantService;
     private final UserService userService;
     private final RestaurantService restaurantService;
+    private final RestaurantLikeService restaurantLikeService;
 
     @PostMapping
     public ResponseEntity<Void> reserveRestaurant(Principal principal,
@@ -68,5 +70,13 @@ public class RestaurantController {
         return ResponseEntity
                 .status(OK)
                 .body(restaurantService.getRestaurant(loginUser, restaurantId));
+    }
+
+    @GetMapping("/likes")
+    public ResponseEntity<RestaurantsGetResponse> getLikesRestaurant(Principal principal) {
+        User loginUser = userService.getUserOrException(Long.valueOf(principal.getName()));
+        return ResponseEntity
+                .status(OK)
+                .body(restaurantLikeService.restaurantLikeService(loginUser));
     }
 }
