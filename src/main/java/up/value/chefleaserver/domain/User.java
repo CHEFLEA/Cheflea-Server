@@ -38,6 +38,9 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Career> chefCareers;
 
+    @OneToMany(mappedBy = "user")
+    private List<UserCategory> categories;
+
     public void registerChef(RegisterUserRequest registerUserRequest) {
         this.chefImage = registerUserRequest.userImage();
         this.name = registerUserRequest.name();
