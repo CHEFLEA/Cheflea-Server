@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import up.value.chefleaserver.domain.User;
 import up.value.chefleaserver.dto.RestaurantReservationRequest;
 import up.value.chefleaserver.dto.restaurant.RestaurantInfoGetResponse;
+import up.value.chefleaserver.dto.restaurant.RestaurantReservationPreviewGetResponse;
 import up.value.chefleaserver.dto.restaurant.RestaurantsGetResponse;
 import up.value.chefleaserver.dto.userRestaurant.UserRestaurantReservationRequest;
 import up.value.chefleaserver.dto.userRestaurant.UserRestaurantReservationResponse;
@@ -78,5 +79,14 @@ public class RestaurantController {
         return ResponseEntity
                 .status(OK)
                 .body(restaurantLikeService.getLikedRestaurants(loginUser));
+    }
+
+    @GetMapping("/{restaurantId}/reservations")
+    public ResponseEntity<RestaurantReservationPreviewGetResponse> getRestaurantReservationPreview(Principal principal,
+                                                                                                   @PathVariable Long restaurantId) {
+        User loginUser = userService.getUserOrException(Long.valueOf(principal.getName()));
+        return ResponseEntity
+                .status(OK)
+                .body(restaurantService.getRestaurantReservationPreview(loginUser, restaurantId));
     }
 }
