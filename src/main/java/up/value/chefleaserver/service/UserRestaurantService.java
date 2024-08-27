@@ -66,11 +66,13 @@ public class UserRestaurantService {
                 .user(user)
                 .build();
         restaurantService.saveRestaurant(restaurant);
+
         List<RestaurantImage> restaurantImages = request.restaurantImages()
                 .stream()
                 .map(restaurantImage -> RestaurantImage.create(restaurantImage, restaurant))
                 .toList();
         restaurantImageRepository.saveAll(restaurantImages);
+
         UserRestaurant userRestaurant = UserRestaurant.builder()
                 .user(user)
                 .restaurant(restaurant)
