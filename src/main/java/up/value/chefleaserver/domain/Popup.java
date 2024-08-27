@@ -30,13 +30,14 @@ public class Popup {
 
     private String name;
 
-    private String image;
-
     private LocalDate period;
 
     private LocalTime startTime;
 
     private LocalTime endTime;
+
+    @OneToMany(mappedBy = "popup")
+    private List<PopupImage> popupImages = new ArrayList<>();
 
     @OneToMany(mappedBy = "popup")
     private List<PopupCategory> popupCategories = new ArrayList<>();
@@ -57,7 +58,6 @@ public class Popup {
     private Popup(PopupRegisterPostRequest popupRegisterPostRequest, LocalDate restaurantPeriod,
                   UserRestaurant userRestaurant) {
         this.name = popupRegisterPostRequest.popupName();
-        this.image = popupRegisterPostRequest.popupImage();
         this.period = restaurantPeriod;
         this.startTime = popupRegisterPostRequest.popupStartTime();
         this.endTime = popupRegisterPostRequest.popupEndTime();
