@@ -53,4 +53,9 @@ public class PopupService {
         Popup popup = popupRepository.findById(popupId).orElseThrow(RuntimeException::new);
         userPopupService.saveReservationInfo(loginUser, popup, request);
     }
+
+    @Transactional(readOnly = true)
+    public Popup getPopupOrThrow(Long popupId) {
+        return popupRepository.findById(popupId).orElseThrow(RuntimeException::new);
+    }
 }
