@@ -71,9 +71,8 @@ public class PopupController {
     ResponseEntity<Void> registerPopupLike(Principal principal,
                                            @PathVariable("popup_id") Long popupId) {
         User loginUser = userService.getUserOrException(Long.valueOf(principal.getName()));
-        popupLikeService.registerOrDeletePopupLike(loginUser, popupId);
         return ResponseEntity
-                .status(CREATED)
+                .status(popupLikeService.registerOrDeletePopupLike(loginUser, popupId))
                 .build();
     }
 }
