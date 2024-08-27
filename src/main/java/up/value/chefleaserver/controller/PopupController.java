@@ -35,7 +35,7 @@ public class PopupController {
     private final UserService userService;
     private final PopupLikeService popupLikeService;
 
-    @GetMapping("/{popupId:\\d+}")
+    @GetMapping("/{popupId}")
     public ResponseEntity<PopupDetailGetResponse> getPopup(Principal principal, @PathVariable("popupId") Long popupId) {
         User loginUser = userService.getUserOrException(Long.valueOf(principal.getName()));
         return ResponseEntity.status(OK).body(popupService.getPopup(loginUser, popupId));
@@ -68,15 +68,15 @@ public class PopupController {
         return ResponseEntity.status(popupLikeService.registerOrDeletePopupLike(loginUser, popupId)).build();
     }
 
-    @GetMapping(value = {"", "/{filter-category}", "/{search-keyword}", "/{filter-category}/{search-keyword}"})
+    @GetMapping
     public ResponseEntity<PopupsGetResponse> getFilteredPopups(Principal principal,
                                                                @RequestParam(name = "filter-category", defaultValue = "RECOMMENDATION")
                                                                FilterCategory filterCategory,
                                                                @RequestParam(name = "search-keyword", defaultValue = "")
                                                                String searchKeyword) {
+                                                               @RequestParam(name = "filter-category", defaultValue = "RECOMMENDATION") FilterCategory filterCategory,
+                                                               @RequestParam(name = "search-keyword", defaultValue = "") String searchKeyword) {
         User loginUser = userService.getUserOrException(Long.valueOf(principal.getName()));
-        return ResponseEntity
-                .status(OK)
-                .body(popupService.getFilteredPopups(loginUser, filterCategory, searchKeyword));
+        return ResponseEntity.status(OK).body(popupService.getFilteredPopups(loginUser, filterCategory, searchKeyword));
     }
 }
