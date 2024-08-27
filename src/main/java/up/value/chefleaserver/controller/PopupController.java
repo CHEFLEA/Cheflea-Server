@@ -34,45 +34,39 @@ public class PopupController {
     @GetMapping
     public ResponseEntity<PopupsGetResponse> getAllPopups(Principal principal) {
         User loginUser = userService.getUserOrException(Long.valueOf(principal.getName()));
-        return ResponseEntity
-                .status(OK)
-                .body(popupService.getAllPopups(loginUser));
+        return ResponseEntity.status(OK).body(popupService.getAllPopups(loginUser));
     }
 
     @GetMapping("/{popupId}")
     public ResponseEntity<PopupDetailGetResponse> getPopup(Principal principal, @PathVariable("popupId") Long popupId) {
         User loginUser = userService.getUserOrException(Long.valueOf(principal.getName()));
-        return ResponseEntity
-                .status(OK)
-                .body(popupService.getPopup(loginUser, popupId));
+        return ResponseEntity.status(OK).body(popupService.getPopup(loginUser, popupId));
     }
 
     @GetMapping("/{popupId}/reservations")
     public ResponseEntity<PopupInfoForReservationResponse> getPopupInfoForReservation(Principal principal,
                                                                                       @PathVariable("popupId") Long popupId) {
         User loginUser = userService.getUserOrException(Long.valueOf(principal.getName()));
-        return ResponseEntity
-                .status(OK)
-                .body(popupService.getPopupInfoForReservation(loginUser, popupId));
+        return ResponseEntity.status(OK).body(popupService.getPopupInfoForReservation(loginUser, popupId));
     }
 
     @PostMapping("/{popupId}/reservations")
-    public ResponseEntity<Void> reservePopup(Principal principal,
-                                             @PathVariable("popupId") Long popupId,
+    public ResponseEntity<Void> reservePopup(Principal principal, @PathVariable("popupId") Long popupId,
                                              @RequestBody ReservationRequest request) {
         User loginUser = userService.getUserOrException(Long.valueOf(principal.getName()));
         popupService.reservePopup(loginUser, popupId, request);
-        return ResponseEntity
-                .status(CREATED)
-                .build();
+        return ResponseEntity.status(CREATED).build();
+    }
+
+    @GetMapping("/likes")
+    public ResponseEntity<PopupsGetResponse> getPopupFavorites(Principal principal) {
+        User loginUser = userService.getUserOrException(Long.valueOf(principal.getName()));
+        return ResponseEntity.status(OK).body(popupLikeService.getPopupFavorites(loginUser));
     }
 
     @PostMapping("/likes/{popup_id}")
-    ResponseEntity<Void> registerPopupLike(Principal principal,
-                                           @PathVariable("popup_id") Long popupId) {
+    ResponseEntity<Void> registerPopupLike(Principal principal, @PathVariable("popup_id") Long popupId) {
         User loginUser = userService.getUserOrException(Long.valueOf(principal.getName()));
-        return ResponseEntity
-                .status(popupLikeService.registerOrDeletePopupLike(loginUser, popupId))
-                .build();
+        return ResponseEntity.status(popupLikeService.registerOrDeletePopupLike(loginUser, popupId)).build();
     }
 }

@@ -46,14 +46,6 @@ public class UserController {
                 .body(userRestaurantService.getAllRegisteredRestaurant(loginUser));
     }
 
-    @GetMapping("/favorites")
-    public ResponseEntity<PopupsGetResponse> getPopupFavorites(Principal principal) {
-        User loginUser = userService.getUserOrException(Long.valueOf(principal.getName()));
-        return ResponseEntity
-                .status(OK)
-                .body(popupLikeService.getPopupFavorites(loginUser));
-    }
-
     @PostMapping
     public ResponseEntity<Void> registerUser(Principal principal,
                                              @RequestBody RegisterUserRequest registerUserRequest) {
