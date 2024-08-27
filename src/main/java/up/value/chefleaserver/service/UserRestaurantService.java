@@ -81,7 +81,7 @@ public class UserRestaurantService {
         Popup popup = Popup.create(popupRegisterPostRequest, restaurant.getPeriod(), userRestaurant);
         popupRepository.save(popup);
 
-        List<PopupImage> images = userRestaurantReservationRequest.popupInfo().popupImage()
+        List<PopupImage> images = userRestaurantReservationRequest.popupInfo().popupImages()
                 .stream()
                 .map(image -> PopupImage.create(image, popup))
                 .toList();
@@ -106,10 +106,13 @@ public class UserRestaurantService {
                 .map(PopupCategory::getCategory)
                 .map(Category::getKoreanLabel)
                 .toList();
+        List<String> popupImages = images.stream()
+                .map(PopupImage::getImageUrl)
+                .toList();
 
         return UserRestaurantReservationResponse.of(
                 UserRestaurantReservationRestaurantGetResponse.of(restaurant),
-                UserRestaurantReservationPopupGetResponse.of(popup),
+                UserRestaurantReservationPopupGetResponse.of(popup, popupImages),
                 userRestaurantReservationMenuGetResponses,
                 categoriesByKoreanLabel);
     }

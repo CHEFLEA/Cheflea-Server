@@ -10,6 +10,6 @@ public record PopupRegisterPostRequest(
         LocalTime popupStartTime,
         @DateTimeFormat(pattern = "HH:mm")
         LocalTime popupEndTime,
-        List<String> popupImage
+        List<String> popupImages
 ) {
 }
