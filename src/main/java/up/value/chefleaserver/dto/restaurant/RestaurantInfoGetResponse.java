@@ -4,10 +4,11 @@ import java.time.LocalDate;
 import java.util.List;
 import up.value.chefleaserver.domain.Restaurant;
 import up.value.chefleaserver.domain.RestaurantDescription;
+import up.value.chefleaserver.domain.RestaurantImage;
 
 public record RestaurantInfoGetResponse(
         Long restaurantId,
-        String restaurantImage,
+        List<String> restaurantImages,
         String restaurantName,
         String restaurantAddress,
         LocalDate restaurantPeriod,
@@ -22,9 +23,13 @@ public record RestaurantInfoGetResponse(
                 .stream()
                 .map(RestaurantDescription::getDescription)
                 .toList();
+        List<String> restaurantImages = restaurant.getRestaurantImages()
+                .stream()
+                .map(RestaurantImage::getImageUrl)
+                .toList();
         return new RestaurantInfoGetResponse(
                 restaurant.getId(),
-                restaurant.getImage(),
+                restaurantImages,
                 restaurant.getName(),
                 restaurant.getAddress(),
                 restaurant.getPeriod(),

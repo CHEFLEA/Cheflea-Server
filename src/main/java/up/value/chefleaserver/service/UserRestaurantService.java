@@ -11,6 +11,7 @@ import up.value.chefleaserver.domain.Popup;
 import up.value.chefleaserver.domain.PopupCategory;
 import up.value.chefleaserver.domain.PopupImage;
 import up.value.chefleaserver.domain.Restaurant;
+import up.value.chefleaserver.domain.RestaurantImage;
 import up.value.chefleaserver.domain.User;
 import up.value.chefleaserver.domain.UserRestaurant;
 import up.value.chefleaserver.dto.RestaurantReservationRequest;
@@ -25,6 +26,7 @@ import up.value.chefleaserver.repository.MenuRepository;
 import up.value.chefleaserver.repository.PopupCategoryRepository;
 import up.value.chefleaserver.repository.PopupImageRepository;
 import up.value.chefleaserver.repository.PopupRepository;
+import up.value.chefleaserver.repository.RestaurantImageRepository;
 import up.value.chefleaserver.repository.RestaurantRepository;
 import up.value.chefleaserver.repository.UserRestaurantRepository;
 
@@ -40,6 +42,7 @@ public class UserRestaurantService {
     private final MenuRepository menuRepository;
     private final PopupCategoryRepository popupCategoryRepository;
     private final PopupImageRepository popupImageRepository;
+    private final RestaurantImageRepository restaurantImageRepository;
 
     @Transactional(readOnly = true)
     public UserRestaurantsGetResponse getAllRegisteredRestaurant(User user) {
@@ -50,7 +53,6 @@ public class UserRestaurantService {
     public void reserveRestaurantOrThrow(User user, RestaurantReservationRequest request) {
         Restaurant restaurant = Restaurant.builder()
                 .name(request.name())
-                .image(request.restaurantImage())
                 .city(request.location().city())
                 .district(request.location().district())
                 .address(request.location().address())
@@ -64,6 +66,13 @@ public class UserRestaurantService {
                 .user(user)
                 .build();
         restaurantService.saveRestaurant(restaurant);
+
+        List<RestaurantImage> restaurantImages = request.restaurantImages()
+                .stream()
+                .map(restaurantImage -> RestaurantImage.create(restaurantImage, restaurant))
+                .toList();
+        restaurantImageRepository.saveAll(restaurantImages);
+
         UserRestaurant userRestaurant = UserRestaurant.builder()
                 .user(user)
                 .restaurant(restaurant)

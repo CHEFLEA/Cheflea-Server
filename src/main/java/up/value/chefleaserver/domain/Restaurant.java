@@ -31,8 +31,6 @@ public class Restaurant {
 
     private String name;
 
-    private String image;
-
     private String city;
 
     private String district;
@@ -67,12 +65,14 @@ public class Restaurant {
     @OneToMany(mappedBy = "restaurant")
     private List<RestaurantDescription> restaurantDescriptions = new ArrayList<>();
 
+    @OneToMany(mappedBy = "restaurant")
+    private List<RestaurantImage> restaurantImages = new ArrayList<>();
+
     @Builder
-    public Restaurant(String name, String image, String city, String district, String address, String detailedAddress,
+    public Restaurant(String name, String city, String district, String address, String detailedAddress,
                       LocalDate period, LocalTime startTime, LocalTime endTime, String hall, String kitchen,
                       String etc, User user) {
         this.name = name;
-        this.image = image;
         this.city = city;
         this.district = district;
         this.address = address;

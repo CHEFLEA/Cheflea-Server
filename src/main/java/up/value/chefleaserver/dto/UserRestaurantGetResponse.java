@@ -1,5 +1,6 @@
 package up.value.chefleaserver.dto;
 
+import up.value.chefleaserver.domain.RestaurantImage;
 import up.value.chefleaserver.domain.UserRestaurant;
 
 public record UserRestaurantGetResponse(
@@ -11,11 +12,16 @@ public record UserRestaurantGetResponse(
         String auditStatus
 ) {
     public static UserRestaurantGetResponse of(UserRestaurant userRestaurant) {
+        String restaurantImage = userRestaurant.getRestaurant()
+                .getRestaurantImages()
+                .stream()
+                .map(RestaurantImage::getImageUrl)
+                .toList()
+                .get(0);
         return new UserRestaurantGetResponse(
                 userRestaurant.getRestaurant()
                         .getId(),
-                userRestaurant.getRestaurant()
-                        .getImage(),
+                restaurantImage,
                 userRestaurant.getRestaurant()
                         .getName(),
                 userRestaurant.getRestaurant()
