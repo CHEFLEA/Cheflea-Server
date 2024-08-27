@@ -15,6 +15,7 @@ import up.value.chefleaserver.domain.User;
 import up.value.chefleaserver.dto.ReservationGetResponse;
 import up.value.chefleaserver.dto.ReservationsGetResponse;
 import up.value.chefleaserver.dto.popup.ChefReservationGetResponse;
+import up.value.chefleaserver.dto.popup.ChefReservationsGetResponse;
 import up.value.chefleaserver.service.UserPopupService;
 import up.value.chefleaserver.service.UserService;
 
@@ -60,5 +61,12 @@ public class UserPopupController {
         return ResponseEntity
                 .status(NO_CONTENT)
                 .build();
+    }
+
+    @GetMapping("/chef")
+    public ResponseEntity<ChefReservationsGetResponse> getChefReservations(Principal principal) {
+        return ResponseEntity
+                .status(OK)
+                .body(userPopupService.getChefReservations());
     }
 }
