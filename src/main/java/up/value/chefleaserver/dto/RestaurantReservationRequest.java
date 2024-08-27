@@ -12,7 +12,7 @@ public record RestaurantReservationRequest(
         ToolDetail tools,
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yy.MM.dd")
         LocalDate desiredPeriod,
-        String restaurantImage,
+        List<String> restaurantImages,
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
         LocalTime desiredStartTime,
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
