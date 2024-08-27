@@ -1,6 +1,7 @@
 package up.value.chefleaserver.dto.popup;
 
 import java.time.LocalTime;
+import java.util.List;
 import org.springframework.format.annotation.DateTimeFormat;
 
 public record PopupRegisterPostRequest(
@@ -9,6 +10,6 @@ public record PopupRegisterPostRequest(
         LocalTime popupStartTime,
         @DateTimeFormat(pattern = "HH:mm")
         LocalTime popupEndTime,
-        String popupImage
+        List<String> popupImages
 ) {
 }

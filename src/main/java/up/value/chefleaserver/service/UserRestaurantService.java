@@ -9,6 +9,7 @@ import up.value.chefleaserver.common.Category;
 import up.value.chefleaserver.domain.Menu;
 import up.value.chefleaserver.domain.Popup;
 import up.value.chefleaserver.domain.PopupCategory;
+import up.value.chefleaserver.domain.PopupImage;
 import up.value.chefleaserver.domain.Restaurant;
 import up.value.chefleaserver.domain.User;
 import up.value.chefleaserver.domain.UserRestaurant;
@@ -22,6 +23,7 @@ import up.value.chefleaserver.dto.userRestaurant.UserRestaurantReservationReques
 import up.value.chefleaserver.dto.userRestaurant.UserRestaurantReservationResponse;
 import up.value.chefleaserver.repository.MenuRepository;
 import up.value.chefleaserver.repository.PopupCategoryRepository;
+import up.value.chefleaserver.repository.PopupImageRepository;
 import up.value.chefleaserver.repository.PopupRepository;
 import up.value.chefleaserver.repository.RestaurantRepository;
 import up.value.chefleaserver.repository.UserRestaurantRepository;
@@ -37,6 +39,7 @@ public class UserRestaurantService {
     private final PopupRepository popupRepository;
     private final MenuRepository menuRepository;
     private final PopupCategoryRepository popupCategoryRepository;
+    private final PopupImageRepository popupImageRepository;
 
     @Transactional(readOnly = true)
     public UserRestaurantsGetResponse getAllRegisteredRestaurant(User user) {
@@ -78,6 +81,12 @@ public class UserRestaurantService {
         Popup popup = Popup.create(popupRegisterPostRequest, restaurant.getPeriod(), userRestaurant);
         popupRepository.save(popup);
 
+        List<PopupImage> images = userRestaurantReservationRequest.popupInfo().popupImages()
+                .stream()
+                .map(image -> PopupImage.create(image, popup))
+                .toList();
+        popupImageRepository.saveAll(images);
+
         List<Menu> menus = userRestaurantReservationRequest.menus()
                 .stream()
                 .map(menuRegisterPostRequest -> Menu.create(menuRegisterPostRequest, popup))
@@ -97,10 +106,13 @@ public class UserRestaurantService {
                 .map(PopupCategory::getCategory)
                 .map(Category::getKoreanLabel)
                 .toList();
+        List<String> popupImages = images.stream()
+                .map(PopupImage::getImageUrl)
+                .toList();
 
         return UserRestaurantReservationResponse.of(
                 UserRestaurantReservationRestaurantGetResponse.of(restaurant),
-                UserRestaurantReservationPopupGetResponse.of(popup),
+                UserRestaurantReservationPopupGetResponse.of(popup, popupImages),
                 userRestaurantReservationMenuGetResponses,
                 categoriesByKoreanLabel);
     }

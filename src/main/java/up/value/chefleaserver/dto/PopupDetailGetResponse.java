@@ -6,9 +6,10 @@ import java.util.List;
 import up.value.chefleaserver.common.Category;
 import up.value.chefleaserver.domain.Popup;
 import up.value.chefleaserver.domain.PopupCategory;
+import up.value.chefleaserver.domain.PopupImage;
 
 public record PopupDetailGetResponse(
-        String popupImage,
+        List<String> popupImage,
         String popupName,
         List<String> popupCategories,
         String popupAddress,
@@ -20,7 +21,10 @@ public record PopupDetailGetResponse(
 ) {
     public static PopupDetailGetResponse of(Popup popup, Boolean isLiked) {
         return new PopupDetailGetResponse(
-                popup.getImage(),
+                popup.getPopupImages()
+                        .stream()
+                        .map(PopupImage::getImageUrl)
+                        .toList(),
                 popup.getName(),
                 popup.getPopupCategories().stream()
                         .map(PopupCategory::getCategory)

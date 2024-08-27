@@ -2,6 +2,7 @@ package up.value.chefleaserver.dto.popup;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalTime;
+import java.util.List;
 import up.value.chefleaserver.domain.Popup;
 
 public record UserRestaurantReservationPopupGetResponse(
@@ -10,15 +11,15 @@ public record UserRestaurantReservationPopupGetResponse(
         LocalTime popupStartTime,
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
         LocalTime popupEndTime,
-        String popupImage
+        List<String> popupImages
 ) {
 
-    public static UserRestaurantReservationPopupGetResponse of(Popup popup) {
+    public static UserRestaurantReservationPopupGetResponse of(Popup popup, List<String> popupImages) {
         return new UserRestaurantReservationPopupGetResponse(
                 popup.getName(),
                 popup.getStartTime(),
                 popup.getEndTime(),
-                popup.getImage()
+                popupImages
         );
     }
 }

@@ -5,10 +5,11 @@ import java.time.LocalTime;
 import java.util.List;
 import up.value.chefleaserver.common.Category;
 import up.value.chefleaserver.domain.PopupCategory;
+import up.value.chefleaserver.domain.PopupImage;
 import up.value.chefleaserver.domain.UserPopup;
 
 public record PopupInfosResponse(
-        String popupImage,
+        List<String> popupImage,
         List<String> popupCategories,
         String popupName,
         String popupAddress,
@@ -20,7 +21,10 @@ public record PopupInfosResponse(
     public static PopupInfosResponse of(UserPopup userPopup) {
         return new PopupInfosResponse(
                 userPopup.getPopup()
-                        .getImage(),
+                        .getPopupImages()
+                        .stream()
+                        .map(PopupImage::getImageUrl)
+                        .toList(),
                 userPopup.getPopup()
                         .getPopupCategories()
                         .stream()

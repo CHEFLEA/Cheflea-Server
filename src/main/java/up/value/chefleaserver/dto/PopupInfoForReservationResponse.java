@@ -4,10 +4,11 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDate;
 import java.util.List;
 import up.value.chefleaserver.domain.Popup;
+import up.value.chefleaserver.domain.PopupImage;
 
 public record PopupInfoForReservationResponse(
         String popupName,
-        String popupImage,
+        List<String> popupImage,
         String popupAddress,
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yy.MM.dd")
         LocalDate popupPeriod,
@@ -16,7 +17,10 @@ public record PopupInfoForReservationResponse(
     public static PopupInfoForReservationResponse of(Popup popup) {
         return new PopupInfoForReservationResponse(
                 popup.getName(),
-                popup.getImage(),
+                popup.getPopupImages()
+                        .stream()
+                        .map(PopupImage::getImageUrl)
+                        .toList(),
                 popup.getUserRestaurant()
                         .getRestaurant()
                         .getAddress(),
