@@ -49,22 +49,20 @@ public class PopupService {
     }
 
     @Transactional(readOnly = true)
-    public PopupsGetResponse getFilteredPopups(User loginUser, Optional<FilterCategory> filterCategory,
-                                               Optional<String> searchKeyword) {
-        FilterCategory filter = filterCategory.orElse(RECOMMENDATION);
-        String keyword = searchKeyword.orElse("");
+    public PopupsGetResponse getFilteredPopups(User loginUser, FilterCategory filterCategory,
+                                               String searchKeyword) {
         List<Popup> popups = new ArrayList<>();
-        if ((RECOMMENDATION).equals(filter)) {
-            popups = popupRepository.findByNameContainingOrderByPeriodDescCreatedTimeDescPopupLikesDesc(keyword);
+        if ((RECOMMENDATION).equals(filterCategory)) {
+            popups = popupRepository.findByNameContainingOrderByPeriodDescCreatedTimeDescPopupLikesDesc(searchKeyword);
         }
-        if ((CREATED_TIME_DESC).equals(filter)) {
-            popups = popupRepository.findByNameContainingOrderByCreatedTimeDesc(keyword);
+        if ((CREATED_TIME_DESC).equals(filterCategory)) {
+            popups = popupRepository.findByNameContainingOrderByCreatedTimeDesc(searchKeyword);
         }
-        if ((LIKE_DESC).equals(filter)) {
-            popups = popupRepository.findByNameContainingOrderByPopupLikesDesc(keyword);
+        if ((LIKE_DESC).equals(filterCategory)) {
+            popups = popupRepository.findByNameContainingOrderByPopupLikesDesc(searchKeyword);
         }
-        if ((PERIOD_DESC).equals(filter)) {
-            popups = popupRepository.findByNameContainingOrderByPeriodDesc(keyword);
+        if ((PERIOD_DESC).equals(filterCategory)) {
+            popups = popupRepository.findByNameContainingOrderByPeriodDesc(searchKeyword);
         }
         List<PopupGetResponse> popupGetResponses = popups.stream()
                 .map(popup -> {
