@@ -76,4 +76,8 @@ public class PopupService {
 
         return PopupsGetResponse.of(popupGetResponses);
     }
+
+    public Popup getPopupOrThrow(Long popupId) {
+        return popupRepository.findById(popupId).orElseThrow(RuntimeException::new);
+    }
 }
