@@ -1,5 +1,7 @@
 package up.value.chefleaserver.service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +14,7 @@ import up.value.chefleaserver.domain.PopupCategory;
 import up.value.chefleaserver.domain.PopupImage;
 import up.value.chefleaserver.domain.Restaurant;
 import up.value.chefleaserver.domain.RestaurantImage;
+import up.value.chefleaserver.domain.TimeTable;
 import up.value.chefleaserver.domain.User;
 import up.value.chefleaserver.domain.UserRestaurant;
 import up.value.chefleaserver.dto.RestaurantReservationRequest;
@@ -28,6 +31,7 @@ import up.value.chefleaserver.repository.PopupImageRepository;
 import up.value.chefleaserver.repository.PopupRepository;
 import up.value.chefleaserver.repository.RestaurantImageRepository;
 import up.value.chefleaserver.repository.RestaurantRepository;
+import up.value.chefleaserver.repository.TimeTableRepository;
 import up.value.chefleaserver.repository.UserRestaurantRepository;
 
 @Service
@@ -43,6 +47,7 @@ public class UserRestaurantService {
     private final PopupCategoryRepository popupCategoryRepository;
     private final PopupImageRepository popupImageRepository;
     private final RestaurantImageRepository restaurantImageRepository;
+    private final TimeTableRepository timeTableRepository;
 
     @Transactional(readOnly = true)
     public UserRestaurantsGetResponse getAllRegisteredRestaurant(User user) {
@@ -90,6 +95,18 @@ public class UserRestaurantService {
         userRestaurantRepository.save(userRestaurant);
         Popup popup = Popup.create(popupRegisterPostRequest, restaurant.getPeriod(), userRestaurant);
         popupRepository.save(popup);
+
+        LocalDate popupDate = popup.getPeriod();
+        LocalDateTime startDateTime = popupRegisterPostRequest.popupStartTime().atDate(popupDate);
+        LocalDateTime endDateTime = popupRegisterPostRequest.popupEndTime().atDate(popupDate);
+        while (startDateTime.isBefore(endDateTime)) {
+            LocalDateTime timeSlotEndTime = startDateTime.plusMinutes(90);
+            if (timeSlotEndTime.isAfter(endDateTime)) {
+                timeSlotEndTime = endDateTime;
+            }
+            timeTableRepository.save(TimeTable.create(startDateTime, timeSlotEndTime, popup));
+            startDateTime = timeSlotEndTime;
+        }
 
         List<PopupImage> images = userRestaurantReservationRequest.popupInfo().popupImages()
                 .stream()
