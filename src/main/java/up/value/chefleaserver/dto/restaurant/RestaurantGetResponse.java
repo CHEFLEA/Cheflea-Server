@@ -1,6 +1,7 @@
 package up.value.chefleaserver.dto.restaurant;
 
 import up.value.chefleaserver.domain.Restaurant;
+import up.value.chefleaserver.domain.RestaurantImage;
 
 public record RestaurantGetResponse(
         String restaurantImage,
@@ -12,7 +13,11 @@ public record RestaurantGetResponse(
 
     public static RestaurantGetResponse of(Restaurant restaurant, Boolean isLiked) {
         return new RestaurantGetResponse(
-                restaurant.getImage(),
+                restaurant.getRestaurantImages()
+                        .stream()
+                        .map(RestaurantImage::getImageUrl)
+                        .toList()
+                        .get(0),
                 restaurant.getName(),
                 restaurant.getAddress(),
                 restaurant.getPrice(),
