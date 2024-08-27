@@ -28,4 +28,13 @@ public class RestaurantImage {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
     Restaurant restaurant;
+
+    private RestaurantImage(String imageUrl, Restaurant restaurant) {
+        this.imageUrl = imageUrl;
+        this.restaurant = restaurant;
+    }
+
+    public static RestaurantImage create(String imageUrl, Restaurant restaurant) {
+        return new RestaurantImage(imageUrl, restaurant);
+    }
 }
