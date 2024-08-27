@@ -12,6 +12,8 @@ import up.value.chefleaserver.domain.Career;
 import up.value.chefleaserver.domain.Certificate;
 import up.value.chefleaserver.domain.Popup;
 import up.value.chefleaserver.domain.PopupLike;
+import up.value.chefleaserver.domain.Restaurant;
+import up.value.chefleaserver.domain.RestaurantLike;
 import up.value.chefleaserver.domain.User;
 import up.value.chefleaserver.domain.UserCategory;
 import up.value.chefleaserver.dto.user.RegisterUserRequest;
@@ -47,6 +49,15 @@ public class UserService {
         return popup.getPopupLikes()
                 .stream()
                 .map(PopupLike::getUser)
+                .toList()
+                .contains(loginUser);
+    }
+
+    @Transactional(readOnly = true)
+    public Boolean isLikedByUser(User loginUser, Restaurant restaurant) {
+        return restaurant.getRestaurantLikes()
+                .stream()
+                .map(RestaurantLike::getUser)
                 .toList()
                 .contains(loginUser);
     }
