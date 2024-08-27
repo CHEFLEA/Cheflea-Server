@@ -69,11 +69,10 @@ public class Restaurant {
     private List<RestaurantImage> restaurantImages = new ArrayList<>();
 
     @Builder
-    public Restaurant(String name, String image, String city, String district, String address, String detailedAddress,
+    public Restaurant(String name, String city, String district, String address, String detailedAddress,
                       LocalDate period, LocalTime startTime, LocalTime endTime, String hall, String kitchen,
                       String etc, User user) {
         this.name = name;
-        this.image = image;
         this.city = city;
         this.district = district;
         this.address = address;
