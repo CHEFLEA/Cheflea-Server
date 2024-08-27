@@ -11,7 +11,7 @@ import up.value.chefleaserver.domain.PopupImage;
 
 public record PopupGetResponse(
         Long popupId,
-        List<String> popupImage,
+        String popupImage,
         List<String> popupCategories,
         String popupName,
         String popupAddress,
@@ -30,7 +30,8 @@ public record PopupGetResponse(
                 popup.getPopupImages()
                         .stream()
                         .map(PopupImage::getImageUrl)
-                        .toList(),
+                        .toList()
+                        .get(0),
                 popup.getPopupCategories()
                         .stream()
                         .map(PopupCategory::getCategory)
