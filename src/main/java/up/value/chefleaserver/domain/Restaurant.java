@@ -70,7 +70,7 @@ public class Restaurant {
     @Builder
     public Restaurant(String name, String image, String city, String district, String address, String detailedAddress,
                       LocalDate period, LocalTime startTime, LocalTime endTime, String hall, String kitchen,
-                      String etc, User user) {
+                      String etc, Integer price, User user) {
         this.name = name;
         this.image = image;
         this.city = city;
@@ -83,6 +83,7 @@ public class Restaurant {
         this.hall = hall;
         this.kitchen = kitchen;
         this.etc = etc;
+        this.price = price;
         this.user = user;
     }
 }
