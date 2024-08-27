@@ -3,6 +3,7 @@ package up.value.chefleaserver.service;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import up.value.chefleaserver.domain.Popup;
@@ -32,12 +33,15 @@ public class PopupLikeService {
         return PopupsGetResponse.of(popupGetResponses);
     }
 
-    public void registerOrDeletePopupLike(User loginUser, Long popupId) {
+    public HttpStatus registerOrDeletePopupLike(User loginUser, Long popupId) {
         Popup popup = popupService.getPopupOrThrow(popupId);
         Optional<PopupLike> popupLike = popupLikeRepository.findByPopupAndUser(popup, loginUser);
-        popupLike.ifPresent(popupLikeRepository::delete);
-        if (popupLike.isEmpty()) {
+        if (popupLike.isPresent()) {
+            popupLikeRepository.delete(popupLike.get());
+            return HttpStatus.NO_CONTENT;
+        } else {
             popupLikeRepository.save(PopupLike.create(loginUser, popup));
+            return HttpStatus.CREATED;
         }
     }
 }
