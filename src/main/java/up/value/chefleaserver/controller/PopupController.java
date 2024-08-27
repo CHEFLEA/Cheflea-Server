@@ -3,6 +3,7 @@ package up.value.chefleaserver.controller;
 
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
+import static up.value.chefleaserver.common.FilterCategory.RECOMMENDATION;
 
 import java.security.Principal;
 import java.util.Optional;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import up.value.chefleaserver.common.FilterCategory;
 import up.value.chefleaserver.domain.User;
@@ -68,9 +70,10 @@ public class PopupController {
 
     @GetMapping(value = {"", "/{filter-category}", "/{search-keyword}", "/{filter-category}/{search-keyword}"})
     public ResponseEntity<PopupsGetResponse> getFilteredPopups(Principal principal,
-                                                               @PathVariable("filter-category")
-                                                               Optional<FilterCategory> filterCategory,
-                                                               @PathVariable("search-keyword") Optional<String> searchKeyword) {
+                                                               @RequestParam(name = "filter-category", defaultValue = "RECOMMENDATION")
+                                                               FilterCategory filterCategory,
+                                                               @RequestParam(name = "search-keyword", defaultValue = "")
+                                                               String searchKeyword) {
         User loginUser = userService.getUserOrException(Long.valueOf(principal.getName()));
         return ResponseEntity
                 .status(OK)
