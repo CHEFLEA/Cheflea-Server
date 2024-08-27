@@ -9,7 +9,7 @@ import up.value.chefleaserver.domain.PopupCategory;
 import up.value.chefleaserver.domain.PopupImage;
 
 public record PopupDetailGetResponse(
-        List<String> popupImage,
+        List<String> popupImages,
         String popupName,
         List<String> popupCategories,
         String popupAddress,
