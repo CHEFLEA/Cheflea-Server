@@ -67,7 +67,7 @@ public class PopupController {
                 .build();
     }
 
-    @PostMapping("/like/{popup_id}")
+    @PostMapping("/likes/{popup_id}")
     ResponseEntity<Void> registerPopupLike(Principal principal,
                                            @PathVariable("popup_id") Long popupId) {
         User loginUser = userService.getUserOrException(Long.valueOf(principal.getName()));
