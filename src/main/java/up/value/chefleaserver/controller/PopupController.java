@@ -18,6 +18,7 @@ import up.value.chefleaserver.dto.PopupDetailGetResponse;
 import up.value.chefleaserver.dto.PopupInfoForReservationResponse;
 import up.value.chefleaserver.dto.PopupsGetResponse;
 import up.value.chefleaserver.dto.ReservationRequest;
+import up.value.chefleaserver.service.PopupLikeService;
 import up.value.chefleaserver.service.PopupService;
 import up.value.chefleaserver.service.UserService;
 
@@ -28,6 +29,7 @@ public class PopupController {
 
     private final PopupService popupService;
     private final UserService userService;
+    private final PopupLikeService popupLikeService;
 
     @GetMapping
     public ResponseEntity<PopupsGetResponse> getAllPopups(Principal principal) {
@@ -62,6 +64,15 @@ public class PopupController {
         popupService.reservePopup(loginUser, popupId, request);
         return ResponseEntity
                 .status(CREATED)
+                .build();
+    }
+
+    @PostMapping("/likes/{popup_id}")
+    ResponseEntity<Void> registerPopupLike(Principal principal,
+                                           @PathVariable("popup_id") Long popupId) {
+        User loginUser = userService.getUserOrException(Long.valueOf(principal.getName()));
+        return ResponseEntity
+                .status(popupLikeService.registerOrDeletePopupLike(loginUser, popupId))
                 .build();
     }
 }
