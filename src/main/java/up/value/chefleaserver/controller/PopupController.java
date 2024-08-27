@@ -5,6 +5,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
 import java.security.Principal;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import up.value.chefleaserver.common.FilterCategory;
 import up.value.chefleaserver.domain.User;
 import up.value.chefleaserver.dto.PopupDetailGetResponse;
 import up.value.chefleaserver.dto.PopupInfoForReservationResponse;
@@ -31,13 +33,7 @@ public class PopupController {
     private final UserService userService;
     private final PopupLikeService popupLikeService;
 
-    @GetMapping
-    public ResponseEntity<PopupsGetResponse> getAllPopups(Principal principal) {
-        User loginUser = userService.getUserOrException(Long.valueOf(principal.getName()));
-        return ResponseEntity.status(OK).body(popupService.getAllPopups(loginUser));
-    }
-
-    @GetMapping("/{popupId}")
+    @GetMapping("/{popupId:\\d+}")
     public ResponseEntity<PopupDetailGetResponse> getPopup(Principal principal, @PathVariable("popupId") Long popupId) {
         User loginUser = userService.getUserOrException(Long.valueOf(principal.getName()));
         return ResponseEntity.status(OK).body(popupService.getPopup(loginUser, popupId));
@@ -68,5 +64,16 @@ public class PopupController {
     ResponseEntity<Void> registerPopupLike(Principal principal, @PathVariable("popup_id") Long popupId) {
         User loginUser = userService.getUserOrException(Long.valueOf(principal.getName()));
         return ResponseEntity.status(popupLikeService.registerOrDeletePopupLike(loginUser, popupId)).build();
+    }
+
+    @GetMapping(value = {"", "/{filter-category}", "/{search-keyword}", "/{filter-category}/{search-keyword}"})
+    public ResponseEntity<PopupsGetResponse> getFilteredPopups(Principal principal,
+                                                               @PathVariable("filter-category")
+                                                               Optional<FilterCategory> filterCategory,
+                                                               @PathVariable("search-keyword") Optional<String> searchKeyword) {
+        User loginUser = userService.getUserOrException(Long.valueOf(principal.getName()));
+        return ResponseEntity
+                .status(OK)
+                .body(popupService.getFilteredPopups(loginUser, filterCategory, searchKeyword));
     }
 }

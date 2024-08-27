@@ -1,9 +1,17 @@
 package up.value.chefleaserver.service;
 
+import static up.value.chefleaserver.common.FilterCategory.CREATED_TIME_DESC;
+import static up.value.chefleaserver.common.FilterCategory.LIKE_DESC;
+import static up.value.chefleaserver.common.FilterCategory.PERIOD_DESC;
+import static up.value.chefleaserver.common.FilterCategory.RECOMMENDATION;
+
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import up.value.chefleaserver.common.FilterCategory;
 import up.value.chefleaserver.domain.Popup;
 import up.value.chefleaserver.domain.User;
 import up.value.chefleaserver.dto.PopupDetailGetResponse;
@@ -21,20 +29,6 @@ public class PopupService {
     private final PopupRepository popupRepository;
     private final UserService userService;
     private final UserPopupService userPopupService;
-
-    @Transactional(readOnly = true)
-    public PopupsGetResponse getAllPopups(User loginUser) {
-        List<Popup> popups = popupRepository.findAll();
-
-        List<PopupGetResponse> popupGetResponses = popups.stream()
-                .map(popup -> {
-                    boolean isLiked = userService.isLikedByUser(loginUser, popup);
-                    return PopupGetResponse.of(popup, isLiked);
-                })
-                .toList();
-
-        return PopupsGetResponse.of(popupGetResponses);
-    }
 
     @Transactional(readOnly = true)
     public PopupDetailGetResponse getPopup(User loginUser, Long popupId) {
@@ -55,6 +49,34 @@ public class PopupService {
     }
 
     @Transactional(readOnly = true)
+    public PopupsGetResponse getFilteredPopups(User loginUser, Optional<FilterCategory> filterCategory,
+                                               Optional<String> searchKeyword) {
+        FilterCategory filter = filterCategory.orElse(RECOMMENDATION);
+        String keyword = searchKeyword.orElse("");
+        List<Popup> popups = new ArrayList<>();
+        if ((RECOMMENDATION).equals(filter)) {
+            popups = popupRepository.findByNameContainingOrderByPeriodDescCreatedTimeDescPopupLikesDesc(keyword);
+        }
+        if ((CREATED_TIME_DESC).equals(filter)) {
+            popups = popupRepository.findByNameContainingOrderByCreatedTimeDesc(keyword);
+        }
+        if ((LIKE_DESC).equals(filter)) {
+            popups = popupRepository.findByNameContainingOrderByPopupLikesDesc(keyword);
+        }
+        if ((PERIOD_DESC).equals(filter)) {
+            popups = popupRepository.findByNameContainingOrderByPeriodDesc(keyword);
+        }
+        List<PopupGetResponse> popupGetResponses = popups.stream()
+                .map(popup -> {
+                    System.out.println("popup = " + popup.toString());
+                    boolean isLiked = userService.isLikedByUser(loginUser, popup);
+                    return PopupGetResponse.of(popup, isLiked);
+                })
+                .toList();
+
+        return PopupsGetResponse.of(popupGetResponses);
+    }
+
     public Popup getPopupOrThrow(Long popupId) {
         return popupRepository.findById(popupId).orElseThrow(RuntimeException::new);
     }
