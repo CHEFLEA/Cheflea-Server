@@ -32,4 +32,14 @@ public class TimeTable {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "popup_id", nullable = false)
     private Popup popup;
+
+    private TimeTable(LocalDateTime startTime, LocalDateTime endTime, Popup popup) {
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.popup = popup;
+    }
+
+    public static TimeTable create(LocalDateTime startTime, LocalDateTime endTime, Popup popup) {
+        return new TimeTable(startTime, endTime, popup);
+    }
 }
