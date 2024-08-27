@@ -63,6 +63,7 @@ public class UserRestaurantService {
                 .hall(request.tools().hall())
                 .kitchen(request.tools().hall())
                 .etc(request.tools().etc())
+                .price(request.desiredPrice())
                 .user(user)
                 .build();
         restaurantService.saveRestaurant(restaurant);
