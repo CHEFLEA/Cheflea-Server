@@ -6,8 +6,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import up.value.chefleaserver.domain.Restaurant;
 import up.value.chefleaserver.domain.User;
+import up.value.chefleaserver.dto.restaurant.ChefInfoPreviewGetResponse;
 import up.value.chefleaserver.dto.restaurant.RestaurantGetResponse;
 import up.value.chefleaserver.dto.restaurant.RestaurantInfoGetResponse;
+import up.value.chefleaserver.dto.restaurant.RestaurantInfoPreviewGetResponse;
+import up.value.chefleaserver.dto.restaurant.RestaurantReservationPreviewGetResponse;
 import up.value.chefleaserver.dto.restaurant.RestaurantsGetResponse;
 import up.value.chefleaserver.repository.RestaurantRepository;
 
@@ -46,5 +49,16 @@ public class RestaurantService {
                 .anyMatch(restaurantLike -> restaurantLike.getUser().equals(loginUser));
 
         return RestaurantInfoGetResponse.of(restaurant, isLiked);
+    }
+
+    @Transactional(readOnly = true)
+    public RestaurantReservationPreviewGetResponse getRestaurantReservationPreview(User loginUser, Long restaurantId) {
+        Restaurant restaurant = restaurantRepository.findById(restaurantId)
+                .orElseThrow(RuntimeException::new);
+
+        return RestaurantReservationPreviewGetResponse.of(
+                RestaurantInfoPreviewGetResponse.of(restaurant),
+                ChefInfoPreviewGetResponse.of(loginUser)
+        );
     }
 }
