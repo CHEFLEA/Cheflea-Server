@@ -77,6 +77,6 @@ public class RestaurantController {
         User loginUser = userService.getUserOrException(Long.valueOf(principal.getName()));
         return ResponseEntity
                 .status(OK)
-                .body(restaurantLikeService.restaurantLikeService(loginUser));
+                .body(restaurantLikeService.getLikesRestaurant(loginUser));
     }
 }
