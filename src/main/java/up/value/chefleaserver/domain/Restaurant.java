@@ -31,8 +31,6 @@ public class Restaurant {
 
     private String name;
 
-    private String image;
-
     private String city;
 
     private String district;
