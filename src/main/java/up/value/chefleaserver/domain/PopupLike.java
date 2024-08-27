@@ -29,4 +29,13 @@ public class PopupLike {
     @ManyToOne
     @JoinColumn(name = "popup_id", nullable = false)
     private Popup popup;
+
+    private PopupLike(User user, Popup popup) {
+        this.user = user;
+        this.popup = popup;
+    }
+
+    public static PopupLike create(User user, Popup popup) {
+        return new PopupLike(user, popup);
+    }
 }
