@@ -7,7 +7,6 @@ import static up.value.chefleaserver.common.FilterCategory.RECOMMENDATION;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -66,7 +65,6 @@ public class PopupService {
         }
         List<PopupGetResponse> popupGetResponses = popups.stream()
                 .map(popup -> {
-                    System.out.println("popup = " + popup.toString());
                     boolean isLiked = userService.isLikedByUser(loginUser, popup);
                     return PopupGetResponse.of(popup, isLiked);
                 })
