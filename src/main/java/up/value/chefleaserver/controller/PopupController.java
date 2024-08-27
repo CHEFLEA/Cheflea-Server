@@ -3,10 +3,8 @@ package up.value.chefleaserver.controller;
 
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
-import static up.value.chefleaserver.common.FilterCategory.RECOMMENDATION;
 
 import java.security.Principal;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -59,7 +57,9 @@ public class PopupController {
     @GetMapping("/likes")
     public ResponseEntity<PopupsGetResponse> getPopupFavorites(Principal principal) {
         User loginUser = userService.getUserOrException(Long.valueOf(principal.getName()));
-        return ResponseEntity.status(OK).body(popupLikeService.getPopupFavorites(loginUser));
+        return ResponseEntity
+                .status(OK)
+                .body(popupLikeService.getPopupFavorites(loginUser));
     }
 
     @PostMapping("/likes/{popup_id}")
@@ -70,10 +70,6 @@ public class PopupController {
 
     @GetMapping
     public ResponseEntity<PopupsGetResponse> getFilteredPopups(Principal principal,
-                                                               @RequestParam(name = "filter-category", defaultValue = "RECOMMENDATION")
-                                                               FilterCategory filterCategory,
-                                                               @RequestParam(name = "search-keyword", defaultValue = "")
-                                                               String searchKeyword) {
                                                                @RequestParam(name = "filter-category", defaultValue = "RECOMMENDATION") FilterCategory filterCategory,
                                                                @RequestParam(name = "search-keyword", defaultValue = "") String searchKeyword) {
         User loginUser = userService.getUserOrException(Long.valueOf(principal.getName()));
