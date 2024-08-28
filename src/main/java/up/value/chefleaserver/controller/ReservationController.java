@@ -17,15 +17,17 @@ import up.value.chefleaserver.dto.ReservationsGetResponse;
 import up.value.chefleaserver.dto.popup.ChefReservationGetResponse;
 import up.value.chefleaserver.dto.popup.ChefReservationsGetResponse;
 import up.value.chefleaserver.service.UserPopupService;
+import up.value.chefleaserver.service.UserRestaurantService;
 import up.value.chefleaserver.service.UserService;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/reservations")
-public class UserPopupController {
+public class ReservationController {
 
     private final UserService userService;
     private final UserPopupService userPopupService;
+    private final UserRestaurantService userRestaurantService;
 
     @GetMapping("/customer")
     public ResponseEntity<ReservationsGetResponse> getAllReservation(Principal principal) {
@@ -53,11 +55,11 @@ public class UserPopupController {
                 .body(userPopupService.getChefReservation(reservationId));
     }
 
-    @DeleteMapping("/{reservationId}")
+    @DeleteMapping("/chef/{reservationId}")
     public ResponseEntity<Void> deleteReservation(Principal principal,
                                                   @PathVariable Long reservationId) {
         User loginUser = userService.getUserOrException(Long.valueOf(principal.getName()));
-        userPopupService.deleteReservation(loginUser, reservationId);
+        userRestaurantService.deleteReservation(loginUser, reservationId);
         return ResponseEntity
                 .status(NO_CONTENT)
                 .build();
