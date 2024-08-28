@@ -4,6 +4,7 @@ import up.value.chefleaserver.domain.Restaurant;
 import up.value.chefleaserver.domain.RestaurantImage;
 
 public record RestaurantGetResponse(
+        Long restaurantId,
         String restaurantImage,
         String restaurantName,
         String restaurantAddress,
@@ -13,6 +14,7 @@ public record RestaurantGetResponse(
 
     public static RestaurantGetResponse of(Restaurant restaurant, Boolean isLiked) {
         return new RestaurantGetResponse(
+                restaurant.getId(),
                 restaurant.getRestaurantImages()
                         .stream()
                         .map(RestaurantImage::getImageUrl)
