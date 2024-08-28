@@ -150,4 +150,14 @@ public class UserRestaurantService {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Invalid category: " + koreanLabel));
     }
+
+    public void deleteReservation(User loginUser, Long reservationId) {
+        UserRestaurant userRestaurant = userRestaurantRepository.findById(reservationId)
+                .orElseThrow(RuntimeException::new);
+        if (userRestaurant.getUser().equals(loginUser)) {
+            userRestaurantRepository.delete(userRestaurant);
+        } else {
+            throw new RuntimeException("본인의 예약이 아닙니다.");
+        }
+    }
 }
