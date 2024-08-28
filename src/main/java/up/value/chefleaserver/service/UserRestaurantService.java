@@ -13,6 +13,7 @@ import up.value.chefleaserver.domain.Popup;
 import up.value.chefleaserver.domain.PopupCategory;
 import up.value.chefleaserver.domain.PopupImage;
 import up.value.chefleaserver.domain.Restaurant;
+import up.value.chefleaserver.domain.RestaurantDescription;
 import up.value.chefleaserver.domain.RestaurantImage;
 import up.value.chefleaserver.domain.TimeTable;
 import up.value.chefleaserver.domain.User;
@@ -20,8 +21,12 @@ import up.value.chefleaserver.domain.UserRestaurant;
 import up.value.chefleaserver.dto.RestaurantReservationRequest;
 import up.value.chefleaserver.dto.UserRestaurantsGetResponse;
 import up.value.chefleaserver.dto.menu.UserRestaurantReservationMenuGetResponse;
+import up.value.chefleaserver.dto.popup.ChefPopupDTO;
+import up.value.chefleaserver.dto.popup.ChefReservationDTO;
+import up.value.chefleaserver.dto.popup.ChefReservationsGetResponse;
 import up.value.chefleaserver.dto.popup.PopupRegisterPostRequest;
 import up.value.chefleaserver.dto.popup.UserRestaurantReservationPopupGetResponse;
+import up.value.chefleaserver.dto.restaurant.ChefRestaurantDTO;
 import up.value.chefleaserver.dto.restaurant.UserRestaurantReservationRestaurantGetResponse;
 import up.value.chefleaserver.dto.userRestaurant.UserRestaurantReservationRequest;
 import up.value.chefleaserver.dto.userRestaurant.UserRestaurantReservationResponse;
@@ -29,6 +34,7 @@ import up.value.chefleaserver.repository.MenuRepository;
 import up.value.chefleaserver.repository.PopupCategoryRepository;
 import up.value.chefleaserver.repository.PopupImageRepository;
 import up.value.chefleaserver.repository.PopupRepository;
+import up.value.chefleaserver.repository.RestaurantDescriptionRepository;
 import up.value.chefleaserver.repository.RestaurantImageRepository;
 import up.value.chefleaserver.repository.RestaurantRepository;
 import up.value.chefleaserver.repository.TimeTableRepository;
@@ -48,6 +54,7 @@ public class UserRestaurantService {
     private final PopupImageRepository popupImageRepository;
     private final RestaurantImageRepository restaurantImageRepository;
     private final TimeTableRepository timeTableRepository;
+    private final RestaurantDescriptionRepository restaurantDescriptionRepository;
 
     @Transactional(readOnly = true)
     public UserRestaurantsGetResponse getAllRegisteredRestaurant(User user) {
@@ -79,6 +86,12 @@ public class UserRestaurantService {
                 .toList();
         restaurantImageRepository.saveAll(restaurantImages);
 
+        List<RestaurantDescription> restaurantDescriptions = request.restaurantDescriptions()
+                .stream()
+                .map(description -> RestaurantDescription.create(description, restaurant))
+                .toList();
+        restaurantDescriptionRepository.saveAll(restaurantDescriptions);
+
         UserRestaurant userRestaurant = UserRestaurant.builder()
                 .user(user)
                 .restaurant(restaurant)
@@ -92,6 +105,8 @@ public class UserRestaurantService {
         PopupRegisterPostRequest popupRegisterPostRequest = userRestaurantReservationRequest.popupInfo();
         Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(RuntimeException::new);
         UserRestaurant userRestaurant = UserRestaurant.create(loginUser, restaurant);
+        System.out.println("loginUser.getId() = " + loginUser.getId());
+        System.out.println("restaurant.getId() = " + restaurant.getId());
         userRestaurantRepository.save(userRestaurant);
         Popup popup = Popup.create(popupRegisterPostRequest, restaurant.getPeriod(), userRestaurant);
         popupRepository.save(popup);
@@ -159,5 +174,20 @@ public class UserRestaurantService {
         } else {
             throw new RuntimeException("본인의 예약이 아닙니다.");
         }
+    }
+
+    @Transactional(readOnly = true)
+    public ChefReservationsGetResponse getChefReservations(User user) {
+        List<UserRestaurant> userRestaurants = userRestaurantRepository.findAllByUser(user);
+        List<ChefReservationDTO> reservations = userRestaurants.stream()
+                .map(userRestaurant -> {
+                    System.out.println("userRestaurant.getId() = " + userRestaurant.getId());
+                    Popup popup = popupRepository.findByUserRestaurant(userRestaurant);
+                    return ChefReservationDTO.of(userRestaurant.getId(),
+                            ChefRestaurantDTO.of(userRestaurant.getRestaurant()),
+                            ChefPopupDTO.of(popup));
+                }).toList();
+
+        return ChefReservationsGetResponse.of(reservations);
     }
 }
