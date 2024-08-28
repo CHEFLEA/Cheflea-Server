@@ -10,7 +10,11 @@ import up.value.chefleaserver.domain.UserPopup;
 import up.value.chefleaserver.dto.ReservationGetResponse;
 import up.value.chefleaserver.dto.ReservationRequest;
 import up.value.chefleaserver.dto.ReservationsGetResponse;
+import up.value.chefleaserver.dto.popup.ChefPopupDTO;
+import up.value.chefleaserver.dto.popup.ChefReservationDTO;
 import up.value.chefleaserver.dto.popup.ChefReservationGetResponse;
+import up.value.chefleaserver.dto.popup.ChefReservationsGetResponse;
+import up.value.chefleaserver.dto.restaurant.ChefRestaurantDTO;
 import up.value.chefleaserver.repository.UserPopupRepository;
 
 @Service
@@ -64,5 +68,17 @@ public class UserPopupService {
         } else {
             throw new RuntimeException("본인의 예약이 아닙니다.");
         }
+    }
+
+    @Transactional(readOnly = true)
+    public ChefReservationsGetResponse getChefReservations() {
+        List<UserPopup> userPopups = userPopupRepository.findAll();
+        List<ChefReservationDTO> reservations = userPopups.stream()
+                .map(userPopup -> ChefReservationDTO.of(
+                        ChefRestaurantDTO.of(userPopup.getPopup().getUserRestaurant().getRestaurant()),
+                        ChefPopupDTO.of(userPopup.getPopup())))
+                .toList();
+
+        return ChefReservationsGetResponse.of(reservations);
     }
 }
