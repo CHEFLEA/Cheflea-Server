@@ -67,8 +67,9 @@ public class ReservationController {
 
     @GetMapping("/chef")
     public ResponseEntity<ChefReservationsGetResponse> getChefReservations(Principal principal) {
+        User loginUser = userService.getUserOrException(Long.valueOf(principal.getName()));
         return ResponseEntity
                 .status(OK)
-                .body(userPopupService.getChefReservations());
+                .body(userRestaurantService.getChefReservations(loginUser));
     }
 }
