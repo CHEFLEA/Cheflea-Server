@@ -28,4 +28,13 @@ public class RestaurantDescription {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant;
+
+    private RestaurantDescription(String description, Restaurant restaurant) {
+        this.description = description;
+        this.restaurant = restaurant;
+    }
+
+    public static RestaurantDescription create(String description, Restaurant restaurant) {
+        return new RestaurantDescription(description, restaurant);
+    }
 }
