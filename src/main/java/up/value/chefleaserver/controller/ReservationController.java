@@ -52,7 +52,7 @@ public class ReservationController {
                                                                          @PathVariable Long reservationId) {
         return ResponseEntity
                 .status(OK)
-                .body(userPopupService.getChefReservation(reservationId));
+                .body(userRestaurantService.getChefReservation(reservationId));
     }
 
     @DeleteMapping("/chef/{reservationId}")
