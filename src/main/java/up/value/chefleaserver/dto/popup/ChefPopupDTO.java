@@ -18,7 +18,7 @@ public record ChefPopupDTO(
 ) {
 
     public static ChefPopupDTO of(Popup popup) {
-        long hours = between(popup.getEndTime(), popup.getStartTime())
+        long hours = between(popup.getStartTime(), popup.getEndTime())
                 .toHours();
 
         return new ChefPopupDTO(
