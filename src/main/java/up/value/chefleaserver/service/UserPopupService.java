@@ -49,11 +49,4 @@ public class UserPopupService {
         return ReservationGetResponse.of(userPopup);
     }
 
-    @Transactional(readOnly = true)
-    public ChefReservationGetResponse getChefReservation(Long reservationId) {
-        UserPopup userPopup = userPopupRepository.findById(reservationId)
-                .orElseThrow(RuntimeException::new);
-
-        return ChefReservationGetResponse.of(userPopup);
-    }
 }
