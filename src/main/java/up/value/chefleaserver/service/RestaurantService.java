@@ -61,4 +61,9 @@ public class RestaurantService {
                 ChefInfoPreviewGetResponse.of(loginUser)
         );
     }
+
+    @Transactional(readOnly = true)
+    public Restaurant findByRestaurantOrThrow(Long restaurant_id) {
+        return restaurantRepository.findById(restaurant_id).orElseThrow(RuntimeException::new);
+    }
 }
