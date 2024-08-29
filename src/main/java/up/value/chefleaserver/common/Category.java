@@ -12,7 +12,7 @@ public enum Category {
     ITALIAN("이탈리안"),
     MAXICAN("멕시칸"),
     DESERT("디저트"),
-    TAI("타이"),
+    TAI("태국"),
     VIETNAMESE("베트남"),
     HALAL("할랄"),
     FUSION("퓨전");
