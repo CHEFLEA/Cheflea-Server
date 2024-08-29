@@ -108,8 +108,6 @@ public class UserRestaurantService {
         PopupRegisterPostRequest popupRegisterPostRequest = userRestaurantReservationRequest.popupInfo();
         Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(RuntimeException::new);
         UserRestaurant userRestaurant = UserRestaurant.create(loginUser, restaurant);
-        System.out.println("loginUser.getId() = " + loginUser.getId());
-        System.out.println("restaurant.getId() = " + restaurant.getId());
         userRestaurantRepository.save(userRestaurant);
         Popup popup = Popup.create(popupRegisterPostRequest, restaurant.getPeriod(), userRestaurant);
         popupRepository.save(popup);
@@ -184,7 +182,6 @@ public class UserRestaurantService {
         List<UserRestaurant> userRestaurants = userRestaurantRepository.findAllByUser(user);
         List<ChefReservationDTO> reservations = userRestaurants.stream()
                 .map(userRestaurant -> {
-                    System.out.println("userRestaurant.getId() = " + userRestaurant.getId());
                     Popup popup = popupRepository.findByUserRestaurant(userRestaurant);
                     return ChefReservationDTO.of(userRestaurant.getId(),
                             ChefRestaurantDTO.of(userRestaurant.getRestaurant()),
