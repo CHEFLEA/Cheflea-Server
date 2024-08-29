@@ -23,6 +23,7 @@ import up.value.chefleaserver.dto.UserRestaurantsGetResponse;
 import up.value.chefleaserver.dto.menu.UserRestaurantReservationMenuGetResponse;
 import up.value.chefleaserver.dto.popup.ChefPopupDTO;
 import up.value.chefleaserver.dto.popup.ChefReservationDTO;
+import up.value.chefleaserver.dto.popup.ChefReservationGetResponse;
 import up.value.chefleaserver.dto.popup.ChefReservationsGetResponse;
 import up.value.chefleaserver.dto.popup.PopupRegisterPostRequest;
 import up.value.chefleaserver.dto.popup.UserRestaurantReservationPopupGetResponse;
@@ -38,6 +39,7 @@ import up.value.chefleaserver.repository.RestaurantDescriptionRepository;
 import up.value.chefleaserver.repository.RestaurantImageRepository;
 import up.value.chefleaserver.repository.RestaurantRepository;
 import up.value.chefleaserver.repository.TimeTableRepository;
+import up.value.chefleaserver.repository.UserPopupRepository;
 import up.value.chefleaserver.repository.UserRestaurantRepository;
 
 @Service
@@ -55,6 +57,7 @@ public class UserRestaurantService {
     private final RestaurantImageRepository restaurantImageRepository;
     private final TimeTableRepository timeTableRepository;
     private final RestaurantDescriptionRepository restaurantDescriptionRepository;
+    private final UserPopupRepository userPopupRepository;
 
     @Transactional(readOnly = true)
     public UserRestaurantsGetResponse getAllRegisteredRestaurant(User user) {
@@ -189,5 +192,13 @@ public class UserRestaurantService {
                 }).toList();
 
         return ChefReservationsGetResponse.of(reservations);
+    }
+
+    @Transactional(readOnly = true)
+    public ChefReservationGetResponse getChefReservation(Long reservationId) {
+        UserRestaurant userRestaurant = userRestaurantRepository.findById(reservationId)
+                .orElseThrow(RuntimeException::new);
+        Popup popup = popupRepository.findByUserRestaurant(userRestaurant);
+        return ChefReservationGetResponse.of(popup);
     }
 }
