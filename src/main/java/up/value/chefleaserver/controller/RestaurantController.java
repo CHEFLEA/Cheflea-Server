@@ -89,4 +89,13 @@ public class RestaurantController {
                 .status(OK)
                 .body(restaurantService.getRestaurantReservationPreview(loginUser, restaurantId));
     }
+
+    @PostMapping("/likes/{restaurant_id}")
+    public ResponseEntity<Void> registerPopupLike(Principal principal,
+                                                  @PathVariable("restaurant_id") Long restaurantId) {
+        User loginUser = userService.getUserOrException(Long.valueOf(principal.getName()));
+        return ResponseEntity
+                .status(restaurantLikeService.registerOrDeletePopupLike(loginUser, restaurantId))
+                .build();
+    }
 }
