@@ -30,4 +30,13 @@ public class RestaurantLike {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant;
+
+    private RestaurantLike(User user, Restaurant restaurant) {
+        this.user = user;
+        this.restaurant = restaurant;
+    }
+
+    public static RestaurantLike create(User user, Restaurant restaurant) {
+        return new RestaurantLike(user, restaurant);
+    }
 }
